@@ -45,11 +45,6 @@ export default function Header() {
                 {t('navigation.contact')}
               </Link>
             </li>
-            <li>
-              <button className="bg-primary-600 text-white px-6 py-2 rounded-full hover:bg-primary-700 transition">
-                {t('navigation.book')}
-              </button>
-            </li>
           </ul>
           <LanguageSwitcher />
         </nav>
