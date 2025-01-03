@@ -1,44 +1,50 @@
 export default {
   translation: {
-    // ... existing translations ...
-    guidedTours: {
-      pageTitle: 'جولات خاصة مع مرشد',
-      pageSubtitle: 'اكتشف باريس مع جولاتنا الخاصة المخصصة مع سائق',
-      duration: 'المدة',
-      passengers: 'ركاب',
-      startingFrom: 'يبدأ من',
-      included: 'يشمل ما يلي:',
-      notIncluded: 'لا يشمل:',
-      bookNow: 'احجز الآن',
-      features: {
-        vehicle: 'سيارة تحت التصرف + سائق يتحدث لغتين',
-        pickup: 'خدمة التوصيل والاستلام من الفندق',
-        itinerary: 'اختيار مسار الرحلة حسب رغبتك',
-        photoStops: 'توقف لالتقاط الصور حسب رغبتك'
-      },
-      exclusions: {
-        guide: 'المرشد السياحي',
-        entries: 'تذاكر دخول المعالم والمتاحف',
-        castleEntry: 'تذاكر دخول المعالم والمتاحف والقصر'
-      },
-      tours: {
-        parisDisney: {
-          title: 'باريس الأساسية - من ديزني لاند',
-          description: 'الشانزليزيه، برج إيفل، الأنفاليد، الكونكورد، الأوبرا، اللوفر، نوتردام... خدمة التوصيل والعودة إلى ديزني لاند باريس (يمكن إنهاء الخدمة في مطار شارل ديغول أو أورلي).'
-        },
-        parisVersailles: {
-          title: 'باريس الأساسية وفرساي',
-          description: 'أهم معالم باريس وقصر فرساي لزيارة حرة. خدمة التوصيل والعودة إلى الفندق.'
-        },
-        parisClassic: {
-          title: 'باريس الأساسية',
-          description: 'الشانزليزيه، برج إيفل، الأنفاليد، الكونكورد، الأوبرا، اللوفر، نوتردام، مونمارتر، الحي اللاتيني، البانتيون، حدائق لوكسمبورغ... خدمة التوصيل والعودة إلى الفندق.'
-        },
-        parisExpress: {
-          title: 'باريس الأساسية السريعة',
-          description: 'الشانزليزيه، برج إيفل، الأنفاليد، الكونكورد، الأوبرا، اللوفر، نوتردام... خدمة التوصيل والعودة إلى الفندق.'
-        }
+    navigation: {
+      home: 'الرئيسية',
+      services: 'خدماتنا',
+      rates: 'الأسعار',
+      contact: 'اتصل بنا',
+      book: 'احجز الآن',
+      guidedTours: 'جولات سياحية'
+    },
+    booking: {
+      title: 'احجز رحلتك',
+      selectRoute: 'اختر مسارك',
+      oneWay: 'ذهاب فقط',
+      roundTrip: 'ذهاب وعودة',
+      passengers: 'راكب',
+      passengers_plural: 'ركاب',
+      confirmation: {
+        title: 'تم تأكيد الحجز',
+        emailSent: 'تم إرسال رسالة تأكيد إلى بريدك الإلكتروني',
+        backToHome: 'العودة إلى الرئيسية'
       }
+    },
+    vehicle: {
+      title: 'اختر سيارتك',
+      ourVehicles: 'سياراتنا',
+      luggage: 'حقيبة',
+      selected: 'السيارة المختارة'
+    },
+    form: {
+      date: 'التاريخ',
+      time: 'الوقت',
+      numberOfPassengers: 'عدد الركاب',
+      numberOfBags: 'عدد الحقائب',
+      pickupAddress: 'عنوان الاستلام',
+      dropoffAddress: 'عنوان الوصول',
+      pickupInstructions: 'تعليمات الاستلام',
+      dropoffInstructions: 'تعليمات الوصول',
+      flightNumber: 'رقم الرحلة',
+      firstName: 'الاسم الأول',
+      lastName: 'اسم العائلة',
+      email: 'البريد الإلكتروني',
+      phone: 'الهاتف',
+      specialRequests: 'طلبات خاصة',
+      terms: 'أوافق على الشروط والأحكام',
+      back: 'رجوع',
+      confirm: 'تأكيد الحجز'
     }
   }
 };
