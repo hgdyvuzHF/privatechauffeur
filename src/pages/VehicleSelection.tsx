@@ -78,70 +78,79 @@ export default function VehicleSelection({ onSubmit, onBack, route = 'CDG <=> Pa
   return (
     <div className="min-h-screen bg-gray-50 pt-24 pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-8">{t('vehicle.title')}</h2>
+        <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-8">{t('vehicle.title')}</h2>
         
         <div className="grid lg:grid-cols-2 gap-8">
-          {/* Véhicules */}
+          {/* Vehicle Selection */}
           <div className="space-y-6">
-            <h3 className="text-xl font-semibold">{t('vehicle.ourVehicles')}</h3>
-            {vehicles.map((vehicle) => {
-              const price = getPrice(route, vehicle.category);
-              return (
-                <div
-                  key={vehicle.id}
-                  className={`p-6 bg-white rounded-lg shadow-lg cursor-pointer transition-all hover:shadow-xl ${
-                    selectedVehicle?.id === vehicle.id ? 'ring-2 ring-primary-600' : ''
-                  }`}
-                  onClick={() => setSelectedVehicle(vehicle)}
-                >
-                  <div className="flex gap-6">
-                    <img
-                      src={vehicle.imageUrl}
-                      alt={vehicle.name}
-                      className="w-32 h-24 object-contain rounded"
-                    />
-                    <div className="flex-1">
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <h3 className="text-xl font-semibold">{vehicle.category}</h3>
-                          <p className="text-gray-600">{vehicle.name}</p>
-                        </div>
-                        <div className="text-right">
-                          <div className="text-2xl font-bold text-primary-600">
-                            {price.toFixed(2)}€
+            <h3 className="text-lg sm:text-xl font-semibold">{t('vehicle.ourVehicles')}</h3>
+            <div className="grid gap-6">
+              {vehicles.map((vehicle) => {
+                const price = getPrice(route, vehicle.category);
+                return (
+                  <div
+                    key={vehicle.id}
+                    className={`p-4 sm:p-6 bg-white rounded-lg shadow-lg cursor-pointer transition-all hover:shadow-xl ${
+                      selectedVehicle?.id === vehicle.id ? 'ring-2 ring-primary-600' : ''
+                    }`}
+                    onClick={() => setSelectedVehicle(vehicle)}
+                  >
+                    <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
+                      <img
+                        src={vehicle.imageUrl}
+                        alt={vehicle.name}
+                        className="w-full sm:w-32 h-24 object-contain rounded"
+                      />
+                      <div className="flex-1">
+                        <div className="flex flex-col sm:flex-row justify-between items-start gap-2">
+                          <div>
+                            <h3 className="text-lg font-semibold">{vehicle.category}</h3>
+                            <p className="text-gray-600">{vehicle.name}</p>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-xl sm:text-2xl font-bold text-primary-600">
+                              {price.toFixed(2)}€
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      
-                      <p className="text-gray-600 mt-2">{vehicle.description}</p>
-                      
-                      <div className="flex gap-6 mt-4">
-                        <div className="flex items-center gap-2">
-                          <Users className="h-5 w-5 text-gray-400" />
-                          <span>{vehicle.capacity} {t('booking.passengers', { count: vehicle.capacity })}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Briefcase className="h-5 w-5 text-gray-400" />
-                          <span>{vehicle.luggage} {t('vehicle.luggage')}</span>
+                        
+                        <p className="text-gray-600 mt-2 text-sm sm:text-base">{vehicle.description}</p>
+                        
+                        <div className="flex flex-wrap gap-4 mt-4">
+                          <div className="flex items-center gap-2">
+                            <Users className="h-5 w-5 text-gray-400" />
+                            <span>{vehicle.capacity} {t('booking.passengers', { count: vehicle.capacity })}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Briefcase className="h-5 w-5 text-gray-400" />
+                            <span>{vehicle.luggage} {t('vehicle.luggage')}</span>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
 
-          {/* Formulaire de réservation */}
+          {/* Booking Details Form */}
           <div className="space-y-6">
-            <BookingDetailsForm
-              formData={bookingDetails}
-              onChange={handleBookingDetailsChange}
-              onSubmit={handleBookingDetailsSubmit}
-              onBack={onBack}
-              isValid={!!selectedVehicle}
-            />
-            <LuggageService onUpdate={setLuggageService} />
+            {!selectedVehicle && (
+              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
+                <p className="text-yellow-800">{t('vehicle.selectVehicleMessage')}</p>
+              </div>
+            )}
+            <div className={!selectedVehicle ? 'opacity-50 pointer-events-none' : ''}>
+              <BookingDetailsForm
+                formData={bookingDetails}
+                onChange={handleBookingDetailsChange}
+                onSubmit={handleBookingDetailsSubmit}
+                onBack={onBack}
+                isValid={!!selectedVehicle}
+              />
+              <LuggageService onUpdate={setLuggageService} />
+            </div>
           </div>
         </div>
       </div>

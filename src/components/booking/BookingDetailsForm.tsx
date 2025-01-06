@@ -35,10 +35,11 @@ export default function BookingDetailsForm({
   const { t } = useTranslation();
 
   return (
-    <form onSubmit={onSubmit} className="bg-white p-8 rounded-lg shadow-lg space-y-6">
-      <h3 className="text-2xl font-semibold mb-6">{t('booking.title')}</h3>
+    <form onSubmit={onSubmit} className="bg-white p-6 sm:p-8 rounded-lg shadow-lg space-y-6">
+      <h3 className="text-xl sm:text-2xl font-semibold mb-6">{t('booking.details')}</h3>
       
       <div className="space-y-6">
+        {/* Passenger and Bags */}
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -46,7 +47,7 @@ export default function BookingDetailsForm({
             </label>
             <select
               required
-              className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-primary-600 focus:ring focus:ring-primary-200 focus:ring-opacity-50 bg-white shadow-sm transition-colors"
+              className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-primary-600 focus:ring focus:ring-primary-200"
               value={formData.numberOfPassengers}
               onChange={(e) => onChange({ numberOfPassengers: e.target.value })}
             >
@@ -63,7 +64,7 @@ export default function BookingDetailsForm({
             </label>
             <select
               required
-              className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-primary-600 focus:ring focus:ring-primary-200 focus:ring-opacity-50 bg-white shadow-sm transition-colors"
+              className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-primary-600 focus:ring focus:ring-primary-200"
               value={formData.numberOfBags}
               onChange={(e) => onChange({ numberOfBags: e.target.value })}
             >
@@ -74,6 +75,7 @@ export default function BookingDetailsForm({
           </div>
         </div>
 
+        {/* Pickup Details */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             {t('form.pickupAddress')} <span className="text-red-500">*</span>
@@ -81,7 +83,7 @@ export default function BookingDetailsForm({
           <input
             type="text"
             required
-            className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-primary-600 focus:ring focus:ring-primary-200 focus:ring-opacity-50 bg-white shadow-sm transition-colors"
+            className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-primary-600 focus:ring focus:ring-primary-200"
             value={formData.pickupAddress}
             onChange={(e) => onChange({ pickupAddress: e.target.value })}
             placeholder="123 Rue Example, Paris"
@@ -93,7 +95,7 @@ export default function BookingDetailsForm({
             {t('form.pickupInstructions')}
           </label>
           <textarea
-            className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-primary-600 focus:ring focus:ring-primary-200 focus:ring-opacity-50 bg-white shadow-sm transition-colors"
+            className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-primary-600 focus:ring focus:ring-primary-200"
             rows={2}
             value={formData.pickupInstructions}
             onChange={(e) => onChange({ pickupInstructions: e.target.value })}
@@ -101,6 +103,7 @@ export default function BookingDetailsForm({
           />
         </div>
 
+        {/* Dropoff Details */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             {t('form.dropoffAddress')} <span className="text-red-500">*</span>
@@ -108,7 +111,7 @@ export default function BookingDetailsForm({
           <input
             type="text"
             required
-            className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-primary-600 focus:ring focus:ring-primary-200 focus:ring-opacity-50 bg-white shadow-sm transition-colors"
+            className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-primary-600 focus:ring focus:ring-primary-200"
             value={formData.dropoffAddress}
             onChange={(e) => onChange({ dropoffAddress: e.target.value })}
             placeholder="456 Avenue Example, Paris"
@@ -120,7 +123,7 @@ export default function BookingDetailsForm({
             {t('form.dropoffInstructions')}
           </label>
           <textarea
-            className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-primary-600 focus:ring focus:ring-primary-200 focus:ring-opacity-50 bg-white shadow-sm transition-colors"
+            className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-primary-600 focus:ring focus:ring-primary-200"
             rows={2}
             value={formData.dropoffInstructions}
             onChange={(e) => onChange({ dropoffInstructions: e.target.value })}
@@ -128,19 +131,21 @@ export default function BookingDetailsForm({
           />
         </div>
 
+        {/* Flight Number */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             {t('form.flightNumber')}
           </label>
           <input
             type="text"
-            className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-primary-600 focus:ring focus:ring-primary-200 focus:ring-opacity-50 bg-white shadow-sm transition-colors"
+            className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-primary-600 focus:ring focus:ring-primary-200"
             value={formData.flightNumber}
             onChange={(e) => onChange({ flightNumber: e.target.value })}
             placeholder="AF1234"
           />
         </div>
 
+        {/* Personal Information */}
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -149,7 +154,7 @@ export default function BookingDetailsForm({
             <input
               type="text"
               required
-              className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-primary-600 focus:ring focus:ring-primary-200 focus:ring-opacity-50 bg-white shadow-sm transition-colors"
+              className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-primary-600 focus:ring focus:ring-primary-200"
               value={formData.firstName}
               onChange={(e) => onChange({ firstName: e.target.value })}
               placeholder="John"
@@ -162,7 +167,7 @@ export default function BookingDetailsForm({
             <input
               type="text"
               required
-              className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-primary-600 focus:ring focus:ring-primary-200 focus:ring-opacity-50 bg-white shadow-sm transition-colors"
+              className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-primary-600 focus:ring focus:ring-primary-200"
               value={formData.lastName}
               onChange={(e) => onChange({ lastName: e.target.value })}
               placeholder="Doe"
@@ -177,7 +182,7 @@ export default function BookingDetailsForm({
           <input
             type="email"
             required
-            className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-primary-600 focus:ring focus:ring-primary-200 focus:ring-opacity-50 bg-white shadow-sm transition-colors"
+            className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-primary-600 focus:ring focus:ring-primary-200"
             value={formData.email}
             onChange={(e) => onChange({ email: e.target.value })}
             placeholder="john.doe@example.com"
@@ -191,19 +196,20 @@ export default function BookingDetailsForm({
           <input
             type="tel"
             required
-            className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-primary-600 focus:ring focus:ring-primary-200 focus:ring-opacity-50 bg-white shadow-sm transition-colors"
+            className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-primary-600 focus:ring focus:ring-primary-200"
             value={formData.phone}
             onChange={(e) => onChange({ phone: e.target.value })}
             placeholder="+33 6 12 34 56 78"
           />
         </div>
 
+        {/* Special Requests */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             {t('form.specialRequests')}
           </label>
           <textarea
-            className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-primary-600 focus:ring focus:ring-primary-200 focus:ring-opacity-50 bg-white shadow-sm transition-colors"
+            className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-primary-600 focus:ring focus:ring-primary-200"
             rows={3}
             value={formData.specialRequests}
             onChange={(e) => onChange({ specialRequests: e.target.value })}
@@ -211,6 +217,7 @@ export default function BookingDetailsForm({
           />
         </div>
 
+        {/* Terms Acceptance */}
         <div className="flex items-center gap-2">
           <input
             type="checkbox"
@@ -226,7 +233,8 @@ export default function BookingDetailsForm({
         </div>
       </div>
 
-      <div className="flex gap-4 pt-4">
+      {/* Form Actions */}
+      <div className="flex gap-4 pt-6">
         <button
           type="button"
           onClick={onBack}
