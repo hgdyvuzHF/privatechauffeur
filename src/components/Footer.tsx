@@ -6,13 +6,20 @@ import { Phone, Mail, MapPin, Facebook, Instagram, Linkedin } from 'lucide-react
 export default function Footer() {
   const { t } = useTranslation();
 
+  const handleLinkClick = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
   return (
     <footer className="bg-gray-900 text-gray-300">
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div>
-            <Link to="/">
+            <Link to="/" onClick={handleLinkClick}>
               <img 
                 src="https://res.cloudinary.com/dinbxrql6/image/upload/v1735443675/private-chauffeur-logo-6_1_sqtwmi.svg" 
                 alt="Private Chauffeur Logo" 
@@ -29,17 +36,29 @@ export default function Footer() {
             <h3 className="text-white font-semibold text-lg mb-4">{t('footer.quickLinks')}</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/services" className="hover:text-white transition-colors">
+                <Link 
+                  to="/services" 
+                  className="hover:text-white transition-colors"
+                  onClick={handleLinkClick}
+                >
                   {t('header.services')}
                 </Link>
               </li>
               <li>
-                <Link to="/rates" className="hover:text-white transition-colors">
+                <Link 
+                  to="/rates" 
+                  className="hover:text-white transition-colors"
+                  onClick={handleLinkClick}
+                >
                   {t('header.rates')}
                 </Link>
               </li>
               <li>
-                <Link to="/contact" className="hover:text-white transition-colors">
+                <Link 
+                  to="/contact" 
+                  className="hover:text-white transition-colors"
+                  onClick={handleLinkClick}
+                >
                   {t('header.contact')}
                 </Link>
               </li>
@@ -74,18 +93,20 @@ export default function Footer() {
             <h3 className="text-white font-semibold text-lg mb-4">{t('footer.followUs')}</h3>
             <div className="flex gap-4">
               <a 
-                href="https://facebook.com" 
+                href="https://www.facebook.com/share/1AG4bqsjbn/?mibextid=wwXIfr" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="hover:text-white transition-colors"
+                aria-label="Facebook"
               >
                 <Facebook className="h-6 w-6" />
               </a>
               <a 
-                href="https://instagram.com" 
+                href="https://www.instagram.com/private.chauffeur_official/" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="hover:text-white transition-colors"
+                aria-label="Instagram"
               >
                 <Instagram className="h-6 w-6" />
               </a>
@@ -94,6 +115,7 @@ export default function Footer() {
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="hover:text-white transition-colors"
+                aria-label="LinkedIn"
               >
                 <Linkedin className="h-6 w-6" />
               </a>
@@ -104,11 +126,19 @@ export default function Footer() {
         <div className="border-t border-gray-800 mt-12 pt-8 text-sm text-center">
           <p>© {new Date().getFullYear()} Private Chauffeur. {t('footer.rights')}</p>
           <div className="mt-2 space-x-4">
-            <Link to="/privacy" className="hover:text-white transition-colors">
+            <Link 
+              to="/privacy" 
+              className="hover:text-white transition-colors"
+              onClick={handleLinkClick}
+            >
               {t('footer.privacy')}
             </Link>
             <span>•</span>
-            <Link to="/terms" className="hover:text-white transition-colors">
+            <Link 
+              to="/terms" 
+              className="hover:text-white transition-colors"
+              onClick={handleLinkClick}
+            >
               {t('footer.terms')}
             </Link>
           </div>
