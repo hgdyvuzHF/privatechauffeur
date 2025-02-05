@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { CreditCard, Truck, AlertCircle } from 'lucide-react';
-
+import PayPalButton from "./PayPalButton";
 interface PaymentFormProps {
   onSubmit: (data: any) => void;
   totalPrice: number;
@@ -8,6 +8,7 @@ interface PaymentFormProps {
 
 export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) {
   const [paymentMethod, setPaymentMethod] = useState<'card' | 'cash' | 'paypal'>('card');
+  const [amount, setAmount] = useState<number>(100);
   const [formData, setFormData] = useState({
     cardNumber: '',
     expiryDate: '',
@@ -18,7 +19,11 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
     billingCity: '',
     billingCountry: ''
   });
-
+  const handleSuccess = (details: any) => {
+    alert(`Transaction completed by ${details.payer.name.given_name}`);
+    console.log("Transaction Details:", details);
+    // Here, update backend with payment status
+  };
   const depositAmount = totalPrice * 0.2;
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -188,7 +193,7 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
         className="w-full bg-primary-600 text-white py-3 rounded-lg hover:bg-primary-700 transition"
       >
         {paymentMethod === 'paypal' 
-          ? 'Continuer avec PayPal' 
+          ? <PayPalButton amount={amount} onSuccess={handleSuccess} />
           : paymentMethod === 'cash'
           ? `Payer l'acompte de ${depositAmount.toFixed(2)}€`
           : 'Procéder au paiement'
