@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CreditCard, Truck, AlertCircle } from 'lucide-react';
 import PayPalButton from "./PayPalButton";
 import StripeCheckout from "./StripeCheckout";
@@ -8,20 +8,18 @@ interface PaymentFormProps {
 }
 
 export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) {
-  const [paymentMethod, setPaymentMethod] = useState<'card' | 'cash' | 'paypal' | 'stripe'>('card'});
-
-  useEffect(() => {
-    localStorage.setItem('PaymentForm', JSON.stringify(formData));
-  }, [formData]);
-
-  const [amount, setAmount] = useState<number>(100});
-
-  useEffect(() => {
-    localStorage.setItem('PaymentForm', JSON.stringify(formData));
-  }, [formData]);
-
+  const [paymentMethod, setPaymentMethod] = useState<'card' | 'cash' | 'paypal' | 'stripe'>('card');
   const [formData, setFormData] = useState(() => {
-    const savedData = localStorage.getItem('PaymentForm'});
+  const savedData = localStorage.getItem('PaymentForm');
+  const [amount, setAmount] = useState<number>(100);
+
+  useEffect(() => {
+    localStorage.setItem('PaymentForm', JSON.stringify(formData));
+  }, [formData]);
+
+  useEffect(() => {
+    localStorage.setItem('PaymentForm', JSON.stringify(formData));
+  }, [formData]);
 
   useEffect(() => {
     localStorage.setItem('PaymentForm', JSON.stringify(formData));
@@ -43,13 +41,13 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
   }, [formData]);
 
   const handleSuccess = (details: any) => {
-    alert(`Transaction completed by ${details.payer.name.given_name}`});
+    alert(`Transaction completed by ${details.payer.name.given_name}`);
 
   useEffect(() => {
     localStorage.setItem('PaymentForm', JSON.stringify(formData));
   }, [formData]);
 
-    console.log("Transaction Details:", details});
+    console.log("Transaction Details:", details);
 
   useEffect(() => {
     localStorage.setItem('PaymentForm', JSON.stringify(formData));
@@ -60,7 +58,7 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
   const depositAmount = totalPrice * 0.2;
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault(});
+    e.preventDefault();
 
   useEffect(() => {
     localStorage.setItem('PaymentForm', JSON.stringify(formData));
@@ -70,7 +68,7 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
       ...formData, 
       paymentMethod,
       depositAmount: paymentMethod === 'cash' ? depositAmount : null 
-    }});
+    });
 
   useEffect(() => {
     localStorage.setItem('PaymentForm', JSON.stringify(formData));
@@ -249,7 +247,7 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
             className="w-full bg-primary-600 text-white py-3 rounded-lg hover:bg-primary-700 transition"
           >
             {paymentMethod === "cash"
-              ? `Payer l'acompte de ${amount.toFixed(2)}€`
+              ? `Payer l'acompte de ${totalPrice.toFixed(2)}€`
               : "Procéder au paiement"}
           </button>
         </form>
@@ -269,10 +267,5 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
         } */}
       </button>
     </form>
-  });
-
-  useEffect(() => {
-    localStorage.setItem('PaymentForm', JSON.stringify(formData));
-  }, [formData]);
-
+  );
 }

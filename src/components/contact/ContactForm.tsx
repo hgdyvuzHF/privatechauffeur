@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export default function ContactForm() {
   const [formData, setFormData] = useState(() => {
-    const savedData = localStorage.getItem('ContactForm'});
+    const savedData = localStorage.getItem('ContactForm');
 
   useEffect(() => {
     localStorage.setItem('ContactForm', JSON.stringify(formData));
@@ -21,14 +21,14 @@ export default function ContactForm() {
 
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault(});
+    e.preventDefault();
 
   useEffect(() => {
     localStorage.setItem('ContactForm', JSON.stringify(formData));
   }, [formData]);
 
     // Handle form submission
-    console.log('Form submitted:', formData});
+    console.log('Form submitted:', formData);
 
   useEffect(() => {
     localStorage.setItem('ContactForm', JSON.stringify(formData));
@@ -100,10 +100,6 @@ export default function ContactForm() {
         </button>
       </div>
     </form>
-  });
-
-  useEffect(() => {
-    localStorage.setItem('ContactForm', JSON.stringify(formData));
-  }, [formData]);
+  );
 
 }
