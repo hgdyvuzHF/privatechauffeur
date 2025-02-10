@@ -8,9 +8,26 @@ interface PaymentFormProps {
 }
 
 export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) {
-  const [paymentMethod, setPaymentMethod] = useState<'card' | 'cash' | 'paypal' | 'stripe'>('card');
-  const [amount, setAmount] = useState<number>(100);
-  const [formData, setFormData] = useState({
+  const [paymentMethod, setPaymentMethod] = useState<'card' | 'cash' | 'paypal' | 'stripe'>('card'});
+
+  useEffect(() => {
+    localStorage.setItem('PaymentForm', JSON.stringify(formData));
+  }, [formData]);
+
+  const [amount, setAmount] = useState<number>(100});
+
+  useEffect(() => {
+    localStorage.setItem('PaymentForm', JSON.stringify(formData));
+  }, [formData]);
+
+  const [formData, setFormData] = useState(() => {
+    const savedData = localStorage.getItem('PaymentForm'});
+
+  useEffect(() => {
+    localStorage.setItem('PaymentForm', JSON.stringify(formData));
+  }, [formData]);
+
+    return savedData ? JSON.parse(savedData) : {
     cardNumber: '',
     expiryDate: '',
     cvc: '',
@@ -19,21 +36,46 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
     billingAddress: '',
     billingCity: '',
     billingCountry: ''
-  });
+  }});
+
+  useEffect(() => {
+    localStorage.setItem('PaymentForm', JSON.stringify(formData));
+  }, [formData]);
+
   const handleSuccess = (details: any) => {
-    alert(`Transaction completed by ${details.payer.name.given_name}`);
-    console.log("Transaction Details:", details);
+    alert(`Transaction completed by ${details.payer.name.given_name}`});
+
+  useEffect(() => {
+    localStorage.setItem('PaymentForm', JSON.stringify(formData));
+  }, [formData]);
+
+    console.log("Transaction Details:", details});
+
+  useEffect(() => {
+    localStorage.setItem('PaymentForm', JSON.stringify(formData));
+  }, [formData]);
+
     // Here, update backend with payment status
   };
   const depositAmount = totalPrice * 0.2;
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault(});
+
+  useEffect(() => {
+    localStorage.setItem('PaymentForm', JSON.stringify(formData));
+  }, [formData]);
+
     onSubmit({ 
       ...formData, 
       paymentMethod,
       depositAmount: paymentMethod === 'cash' ? depositAmount : null 
-    });
+    }});
+
+  useEffect(() => {
+    localStorage.setItem('PaymentForm', JSON.stringify(formData));
+  }, [formData]);
+
   };
 
   return (
@@ -227,5 +269,10 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
         } */}
       </button>
     </form>
-  );
+  });
+
+  useEffect(() => {
+    localStorage.setItem('PaymentForm', JSON.stringify(formData));
+  }, [formData]);
+
 }

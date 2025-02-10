@@ -1,17 +1,39 @@
 import React, { useState } from 'react';
 
 export default function ContactForm() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState(() => {
+    const savedData = localStorage.getItem('ContactForm'});
+
+  useEffect(() => {
+    localStorage.setItem('ContactForm', JSON.stringify(formData));
+  }, [formData]);
+
+    return savedData ? JSON.parse(savedData) : {
     name: '',
     email: '',
     phone: '',
     message: ''
-  });
+  }});
+
+  useEffect(() => {
+    localStorage.setItem('ContactForm', JSON.stringify(formData));
+  }, [formData]);
+
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault(});
+
+  useEffect(() => {
+    localStorage.setItem('ContactForm', JSON.stringify(formData));
+  }, [formData]);
+
     // Handle form submission
-    console.log('Form submitted:', formData);
+    console.log('Form submitted:', formData});
+
+  useEffect(() => {
+    localStorage.setItem('ContactForm', JSON.stringify(formData));
+  }, [formData]);
+
   };
 
   return (
@@ -78,5 +100,10 @@ export default function ContactForm() {
         </button>
       </div>
     </form>
-  );
+  });
+
+  useEffect(() => {
+    localStorage.setItem('ContactForm', JSON.stringify(formData));
+  }, [formData]);
+
 }
