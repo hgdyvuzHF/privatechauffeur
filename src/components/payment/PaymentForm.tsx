@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { CreditCard, Truck, AlertCircle } from 'lucide-react';
 import PayPalButton from "./PayPalButton";
 import StripeCheckout from "./StripeCheckout";
+
 interface PaymentFormProps {
   onSubmit: (data: any) => void;
   totalPrice: number;
@@ -9,71 +10,44 @@ interface PaymentFormProps {
 
 export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) {
   const [paymentMethod, setPaymentMethod] = useState<'card' | 'cash' | 'paypal' | 'stripe'>('card');
-  const [formData, setFormData] = useState(() => {
-  const savedData = localStorage.getItem('PaymentForm');
-  const [amount, setAmount] = useState<number>(100);
 
-  useEffect(() => {
-    localStorage.setItem('PaymentForm', JSON.stringify(formData));
-  }, [formData]);
-
-  useEffect(() => {
-    localStorage.setItem('PaymentForm', JSON.stringify(formData));
-  }, [formData]);
-
-  useEffect(() => {
-    localStorage.setItem('PaymentForm', JSON.stringify(formData));
-  }, [formData]);
-
+  // Load saved form data from localStorage or set default values
+  const getInitialFormData = () => {
+    const savedData = localStorage.getItem('PaymentForm');
     return savedData ? JSON.parse(savedData) : {
-    cardNumber: '',
-    expiryDate: '',
-    cvc: '',
-    cardholderName: '',
-    sameAsShipping: true,
-    billingAddress: '',
-    billingCity: '',
-    billingCountry: ''
-  }});
+      cardNumber: '',
+      expiryDate: '',
+      cvc: '',
+      cardholderName: '',
+      sameAsShipping: true,
+      billingAddress: '',
+      billingCity: '',
+      billingCountry: ''
+    };
+  };
 
+  const [formData, setFormData] = useState(getInitialFormData);
+
+  // Save form data to localStorage on every change
   useEffect(() => {
     localStorage.setItem('PaymentForm', JSON.stringify(formData));
   }, [formData]);
 
   const handleSuccess = (details: any) => {
     alert(`Transaction completed by ${details.payer.name.given_name}`);
-
-  useEffect(() => {
-    localStorage.setItem('PaymentForm', JSON.stringify(formData));
-  }, [formData]);
-
     console.log("Transaction Details:", details);
-
-  useEffect(() => {
-    localStorage.setItem('PaymentForm', JSON.stringify(formData));
-  }, [formData]);
-
     // Here, update backend with payment status
   };
+
   const depositAmount = totalPrice * 0.2;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-  useEffect(() => {
-    localStorage.setItem('PaymentForm', JSON.stringify(formData));
-  }, [formData]);
-
     onSubmit({ 
       ...formData, 
       paymentMethod,
       depositAmount: paymentMethod === 'cash' ? depositAmount : null 
     });
-
-  useEffect(() => {
-    localStorage.setItem('PaymentForm', JSON.stringify(formData));
-  }, [formData]);
-
   };
 
   return (
