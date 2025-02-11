@@ -30,6 +30,18 @@ export default function BookingConfirmation({ booking, onBack }: BookingConfirma
   const [emailStatus, setEmailStatus] = useState<EmailStatus>({ success: true });
   const { t } = useTranslation();
 
+  // Load saved vehicle list from localStorage or set default
+  const getInitialVehicle = () => {
+    const savedVehicle = localStorage.getItem('SelectedVehicle');
+    return savedVehicle ? JSON.parse(savedVehicle) : booking.vehicle;
+  };
+
+  const [vehicle, setVehicle] = useState(getInitialVehicle);
+
+  useEffect(() => {
+    localStorage.setItem('SelectedVehicle', JSON.stringify(vehicle));
+  }, [vehicle]);
+
   useEffect(() => {
     const sendEmail = async () => {
       const status = await sendBookingConfirmation({
@@ -41,13 +53,17 @@ export default function BookingConfirmation({ booking, onBack }: BookingConfirma
         returnDate: booking.returnDate ? formatDate(booking.returnDate) : undefined,
         returnTime: booking.returnTime ? formatTime(booking.returnTime) : undefined,
         passengers: parseInt(booking.passengers),
-        vehicle: booking.vehicle
+        vehicle: vehicle
       });
       setEmailStatus(status);
     };
-
     sendEmail();
-  }, [booking]);
+  }, [booking, vehicle]);
+
+  const handleBack = () => {
+    localStorage.setItem('SelectedVehicle', JSON.stringify(vehicle));
+    onBack();
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 pt-32 pb-16">
@@ -71,43 +87,21 @@ export default function BookingConfirmation({ booking, onBack }: BookingConfirma
           </div>
 
           <div className="space-y-6 mb-8">
-            <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
-              <Calendar className="h-5 w-5 text-gray-400" />
-              <div>
-                <p className="text-sm text-gray-500">{t('form.date')}</p>
-                <p className="font-medium">{formatDate(booking.date)}</p>
-              </div>
-              <Clock className="h-5 w-5 text-gray-400 ml-6" />
-              <div>
-                <p className="text-sm text-gray-500">{t('form.time')}</p>
-                <p className="font-medium">{formatTime(booking.time)}</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
-              <Users className="h-5 w-5 text-gray-400" />
-              <div>
-                <p className="text-sm text-gray-500">{t('form.numberOfPassengers')}</p>
-                <p className="font-medium">{booking.passengers} {parseInt(booking.passengers) > 1 ? t('booking.passengers_plural') : t('booking.passengers')}</p>
-              </div>
-            </div>
-
             <div className="p-4 bg-gray-50 rounded-lg">
               <h3 className="font-medium mb-2">{t('vehicle.selected')}</h3>
-              <p className="text-gray-600">{booking.vehicle.name}</p>
-              <p className="text-sm text-gray-500">{booking.vehicle.category}</p>
+              <p className="text-gray-600">{vehicle.name}</p>
+              <p className="text-sm text-gray-500">{vehicle.category}</p>
             </div>
           </div>
 
-          {/* Return home button */}
           <div className="text-center mt-8 pt-6 border-t">
-            <Link 
-              to="/"
+            <button 
+              onClick={handleBack}
               className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
             >
               <Home className="h-5 w-5" />
               <span>{t('booking.confirmation.backToHome')}</span>
-            </Link>
+            </button>
           </div>
         </div>
       </div>

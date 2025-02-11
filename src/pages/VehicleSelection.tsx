@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Users, Briefcase } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { vehicles, Vehicle } from '../data/vehicles';
@@ -15,29 +15,49 @@ interface VehicleSelectionProps {
 
 export default function VehicleSelection({ onSubmit, onBack, route = 'CDG <=> Paris' }: VehicleSelectionProps) {
   const { t } = useTranslation();
-  const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
+  
+  // Load saved vehicle selection and booking details from localStorage
+  const getInitialVehicle = () => {
+    const savedVehicle = localStorage.getItem('SelectedVehicle');
+    return savedVehicle ? JSON.parse(savedVehicle) : null;
+  };
+  
+  const getInitialBookingDetails = () => {
+    const savedDetails = localStorage.getItem('BookingDetails');
+    return savedDetails ? JSON.parse(savedDetails) : {
+      numberOfPassengers: '1',
+      numberOfBags: '0',
+      pickupAddress: '',
+      pickupInstructions: '',
+      dropoffAddress: '',
+      dropoffInstructions: '',
+      flightNumber: '',
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      specialRequests: '',
+      acceptTerms: false
+    };
+  };
+
+  const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(getInitialVehicle);
   const [showPayment, setShowPayment] = useState(false);
-  const [bookingDetails, setBookingDetails] = useState({
-    numberOfPassengers: '1',
-    numberOfBags: '0',
-    pickupAddress: '',
-    pickupInstructions: '',
-    dropoffAddress: '',
-    dropoffInstructions: '',
-    flightNumber: '',
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    specialRequests: '',
-    acceptTerms: false
-  });
+  const [bookingDetails, setBookingDetails] = useState(getInitialBookingDetails);
   const [luggageService, setLuggageService] = useState<LuggageServiceData>({
     enabled: false,
     standardLuggage: 0,
     specialLuggage: 0,
     totalPrice: 0
   });
+
+  useEffect(() => {
+    localStorage.setItem('SelectedVehicle', JSON.stringify(selectedVehicle));
+  }, [selectedVehicle]);
+
+  useEffect(() => {
+    localStorage.setItem('BookingDetails', JSON.stringify(bookingDetails));
+  }, [bookingDetails]);
 
   const handleBookingDetailsSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -81,7 +101,6 @@ export default function VehicleSelection({ onSubmit, onBack, route = 'CDG <=> Pa
         <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-8">{t('vehicle.title')}</h2>
         
         <div className="grid lg:grid-cols-2 gap-8">
-          {/* Vehicle Selection */}
           <div className="space-y-6">
             <h3 className="text-lg sm:text-xl font-semibold">{t('vehicle.ourVehicles')}</h3>
             <div className="grid gap-6">
@@ -96,36 +115,11 @@ export default function VehicleSelection({ onSubmit, onBack, route = 'CDG <=> Pa
                     onClick={() => setSelectedVehicle(vehicle)}
                   >
                     <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
-                      <img
-                        src={vehicle.imageUrl}
-                        alt={vehicle.name}
-                        className="w-full sm:w-32 h-24 object-contain rounded"
-                      />
+                      <img src={vehicle.imageUrl} alt={vehicle.name} className="w-full sm:w-32 h-24 object-contain rounded" />
                       <div className="flex-1">
-                        <div className="flex flex-col sm:flex-row justify-between items-start gap-2">
-                          <div>
-                            <h3 className="text-lg font-semibold">{vehicle.category}</h3>
-                            <p className="text-gray-600">{vehicle.name}</p>
-                          </div>
-                          <div className="text-right">
-                            <div className="text-xl sm:text-2xl font-bold text-primary-600">
-                              {price.toFixed(2)}€
-                            </div>
-                          </div>
-                        </div>
-                        
-                        <p className="text-gray-600 mt-2 text-sm sm:text-base">{vehicle.description}</p>
-                        
-                        <div className="flex flex-wrap gap-4 mt-4">
-                          <div className="flex items-center gap-2">
-                            <Users className="h-5 w-5 text-gray-400" />
-                            <span>{vehicle.capacity} {t('booking.passengers', { count: vehicle.capacity })}</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Briefcase className="h-5 w-5 text-gray-400" />
-                            <span>{vehicle.luggage} {t('vehicle.luggage')}</span>
-                          </div>
-                        </div>
+                        <h3 className="text-lg font-semibold">{vehicle.category}</h3>
+                        <p className="text-gray-600">{vehicle.name}</p>
+                        <div className="text-xl sm:text-2xl font-bold text-primary-600">{price.toFixed(2)}€</div>
                       </div>
                     </div>
                   </div>
@@ -134,23 +128,15 @@ export default function VehicleSelection({ onSubmit, onBack, route = 'CDG <=> Pa
             </div>
           </div>
 
-          {/* Booking Details Form */}
           <div className="space-y-6">
-            {!selectedVehicle && (
-              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
-                <p className="text-yellow-800">{t('vehicle.selectVehicleMessage')}</p>
-              </div>
-            )}
-            <div className={!selectedVehicle ? 'opacity-50 pointer-events-none' : ''}>
-              <BookingDetailsForm
-                formData={bookingDetails}
-                onChange={handleBookingDetailsChange}
-                onSubmit={handleBookingDetailsSubmit}
-                onBack={onBack}
-                isValid={!!selectedVehicle}
-              />
-              <LuggageService onUpdate={setLuggageService} />
-            </div>
+            <BookingDetailsForm
+              formData={bookingDetails}
+              onChange={handleBookingDetailsChange}
+              onSubmit={handleBookingDetailsSubmit}
+              onBack={onBack}
+              isValid={!!selectedVehicle}
+            />
+            <LuggageService onUpdate={setLuggageService} />
           </div>
         </div>
       </div>

@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
-import { Calendar, Clock, MapPin, ArrowRight } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { Calendar as CalendarIcon, Clock, MapPin, ArrowRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { predefinedRoutes } from '../data/routes';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 interface BookingFormProps {
   onSubmit: (bookingData: any) => void;
@@ -9,16 +11,27 @@ interface BookingFormProps {
 
 export default function BookingForm({ onSubmit }: BookingFormProps) {
   const { t } = useTranslation();
-  const [formData, setFormData] = useState({
-    route: '',
-    tripType: 'one-way',
-    date: '',
-    time: '12:00',
-    returnDate: '',
-    returnTime: '12:00',
-    passengers: '1'
-  });
+
+  const getInitialFormData = () => {
+    const savedData = localStorage.getItem('BookingForm');
+    const defaultDate = new Date().toISOString().split('T')[0];
+    
+    return savedData ? JSON.parse(savedData) : {
+      route: '',
+      tripType: 'one-way',
+      date: defaultDate,
+      time: '12:00',
+      returnDate: defaultDate,
+      returnTime: '12:00',
+      passengers: '1'
+    };
+  };
+  const [formData, setFormData] = useState(getInitialFormData);
   const [isRouteDropdownOpen, setIsRouteDropdownOpen] = useState(false);
+  
+  useEffect(() => {
+    localStorage.setItem('BookingForm', JSON.stringify(formData));
+  }, [formData]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -122,15 +135,13 @@ export default function BookingForm({ onSubmit }: BookingFormProps) {
         <div className="grid grid-cols-2 gap-4">
           <div className="relative">
             <div className="absolute left-3 top-1/2 -translate-y-1/2">
-              <Calendar className="h-5 w-5 text-gray-400" />
+              <CalendarIcon className="h-5 w-5 text-gray-400" />
             </div>
-            <input
-              type="date"
+            <DatePicker
+              selected={formData.date ? new Date(formData.date) : new Date()}
+              onChange={(date: Date) => setFormData({...formData, date: date.toISOString().split('T')[0]})}
               className="w-full pl-10 pr-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent"
-              value={formData.date}
-              onChange={(e) => setFormData({...formData, date: e.target.value})}
               required
-              min={new Date().toISOString().split('T')[0]}
             />
           </div>
           <div className="relative">
@@ -146,36 +157,6 @@ export default function BookingForm({ onSubmit }: BookingFormProps) {
             />
           </div>
         </div>
-
-        {formData.tripType === 'round-trip' && (
-          <div className="grid grid-cols-2 gap-4">
-            <div className="relative">
-              <div className="absolute left-3 top-1/2 -translate-y-1/2">
-                <Calendar className="h-5 w-5 text-gray-400" />
-              </div>
-              <input
-                type="date"
-                className="w-full pl-10 pr-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent"
-                value={formData.returnDate}
-                onChange={(e) => setFormData({...formData, returnDate: e.target.value})}
-                required
-                min={formData.date || new Date().toISOString().split('T')[0]}
-              />
-            </div>
-            <div className="relative">
-              <div className="absolute left-3 top-1/2 -translate-y-1/2">
-                <Clock className="h-5 w-5 text-gray-400" />
-              </div>
-              <input
-                type="time"
-                className="w-full pl-10 pr-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent"
-                value={formData.returnTime}
-                onChange={(e) => setFormData({...formData, returnTime: e.target.value})}
-                required
-              />
-            </div>
-          </div>
-        )}
 
         {/* Passengers Selection */}
         <div>
