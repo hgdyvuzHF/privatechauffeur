@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 interface BookingFormData {
@@ -32,12 +32,12 @@ export default function BookingDetailsForm({
   onBack,
   isValid
 }: BookingDetailsFormProps) {
-  const { t } = useTranslation(});
+  const { t } = useTranslation();
 
   useEffect(() => {
     localStorage.setItem('BookingDetailsForm', JSON.stringify(formData));
   }, [formData]);
-
+  
 
   return (
     <form onSubmit={onSubmit} className="bg-white p-8 rounded-lg shadow-lg space-y-6">
@@ -237,10 +237,6 @@ export default function BookingDetailsForm({
         </button>
       </div>
     </form>
-  });
-
-  useEffect(() => {
-    localStorage.setItem('BookingDetailsForm', JSON.stringify(formData));
-  }, [formData]);
+  );
 
 }
