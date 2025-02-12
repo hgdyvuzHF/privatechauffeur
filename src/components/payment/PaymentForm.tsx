@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { CreditCard, Truck, AlertCircle } from 'lucide-react';
 import PayPalButton from "./PayPalButton";
 import StripeCheckout from "./StripeCheckout";
+import { useNavigate } from 'react-router-dom';
+import { CardElement, Elements, useElements, useStripe } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 
 interface PaymentFormProps {
   onSubmit: (data: any) => void;
@@ -10,7 +13,7 @@ interface PaymentFormProps {
 
 export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) {
   const [paymentMethod, setPaymentMethod] = useState<'card' | 'cash' | 'paypal' | 'stripe'>('card');
-
+  const navigate = useNavigate();
   // Load saved form data from localStorage or set default values
   const getInitialFormData = () => {
     const savedData = localStorage.getItem('PaymentForm');
@@ -25,7 +28,7 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
       billingCountry: ''
     };
   };
-
+  const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
   const [formData, setFormData] = useState(getInitialFormData);
 
   // Save form data to localStorage on every change
@@ -37,6 +40,7 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
     alert(`Transaction completed by ${details.payer.name.given_name}`);
     console.log("Transaction Details:", details);
     // Here, update backend with payment status
+    navigate("/");
   };
 
   const depositAmount = totalPrice * 0.2;
@@ -140,59 +144,78 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
           )}
 
           {(paymentMethod === 'card' || paymentMethod === 'cash') && (
-            <div className="space-y-4 mt-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Numéro de carte
-                </label>
-                <input
-                  type="text"
-                  className="w-full rounded-lg border-gray-300"
-                  placeholder="1234 5678 9012 3456"
-                  value={formData.cardNumber}
-                  onChange={(e) => setFormData({...formData, cardNumber: e.target.value})}
-                />
-              </div>
+            // <div className="space-y-4 mt-6">
+            //   <div>
+            //     <label className="block text-sm font-medium text-gray-700 mb-1">
+            //       Numéro de carte
+            //     </label>
+            //     <input
+            //       type="text"
+            //       className="w-full rounded-lg border-gray-300"
+            //       placeholder="1234 5678 9012 3456"
+            //       value={formData.cardNumber}
+            //       onChange={(e) => setFormData({...formData, cardNumber: e.target.value})}
+            //     />
+            //   </div>
               
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Date d'expiration
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full rounded-lg border-gray-300"
-                    placeholder="MM/YY"
-                    value={formData.expiryDate}
-                    onChange={(e) => setFormData({...formData, expiryDate: e.target.value})}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    CVC
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full rounded-lg border-gray-300"
-                    placeholder="123"
-                    value={formData.cvc}
-                    onChange={(e) => setFormData({...formData, cvc: e.target.value})}
-                  />
-                </div>
-              </div>
+            //   <div className="grid grid-cols-2 gap-4">
+            //     <div>
+            //       <label className="block text-sm font-medium text-gray-700 mb-1">
+            //         Date d'expiration
+            //       </label>
+            //       <input
+            //         type="text"
+            //         className="w-full rounded-lg border-gray-300"
+            //         placeholder="MM/YY"
+            //         value={formData.expiryDate}
+            //         onChange={(e) => setFormData({...formData, expiryDate: e.target.value})}
+            //       />
+            //     </div>
+            //     <div>
+            //       <label className="block text-sm font-medium text-gray-700 mb-1">
+            //         CVC
+            //       </label>
+            //       <input
+            //         type="text"
+            //         className="w-full rounded-lg border-gray-300"
+            //         placeholder="123"
+            //         value={formData.cvc}
+            //         onChange={(e) => setFormData({...formData, cvc: e.target.value})}
+            //       />
+            //     </div>
+            //   </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Nom sur la carte
-                </label>
-                <input
-                  type="text"
-                  className="w-full rounded-lg border-gray-300"
-                  placeholder="John Doe"
-                  value={formData.cardholderName}
-                  onChange={(e) => setFormData({...formData, cardholderName: e.target.value})}
-                />
-              </div>
+            //   <div>
+            //     <label className="block text-sm font-medium text-gray-700 mb-1">
+            //       Nom sur la carte
+            //     </label>
+            //     <input
+            //       type="text"
+            //       className="w-full rounded-lg border-gray-300"
+            //       placeholder="John Doe"
+            //       value={formData.cardholderName}
+            //       onChange={(e) => setFormData({...formData, cardholderName: e.target.value})}
+            //     />
+            //   </div>
+            //   {/* Regular form for Credit Card or Cash */}
+            //   {paymentMethod === "cash" && (
+            //     <form>
+            //       <button
+            //         type="submit"
+            //         className="w-full bg-primary-600 text-white py-3 rounded-lg hover:bg-primary-700 transition"
+            //       >
+            //         {paymentMethod === "cash"
+            //           ? `Payer l'acompte de ${totalPrice.toFixed(2)}€`
+            //           : "Procéder au paiement"}
+            //       </button>
+            //     </form>
+            //   )}
+            // </div>
+            <div className="mt-4">
+              <h4 className="text-lg font-semibold mb-2">Informations de paiement</h4>
+              <Elements stripe={stripePromise}>
+                <StripePayment totalPrice={totalPrice} />
+              </Elements>
             </div>
           )}
           {paymentMethod === 'paypal' && (
@@ -211,35 +234,51 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
           )}
         </div>
       </div>
-      
-
-      {/* Regular form for Credit Card or Cash */}
-      {paymentMethod === "cash" && (
-        <form>
-          <button
-            type="submit"
-            className="w-full bg-primary-600 text-white py-3 rounded-lg hover:bg-primary-700 transition"
-          >
-            {paymentMethod === "cash"
-              ? `Payer l'acompte de ${totalPrice.toFixed(2)}€`
-              : "Procéder au paiement"}
-          </button>
-        </form>
-      )}
-      <button
-        type="submit"
-        className="w-full bg-primary-600 text-white py-3 rounded-lg hover:bg-primary-700 transition"
-      >
-        {/* {paymentMethod === 'paypal' 
-          ? <PayPalButton amount={amount} onSuccess={handleSuccess} />
-          : paymentMethod === 'stripe' ? (
-            <StripeCheckout amount={amount} />
-          ) 
-          : paymentMethod === 'cash'
-          ? `Payer l'acompte de ${depositAmount.toFixed(2)}€`
-          : 'Procéder au paiement'
-        } */}
-      </button>
     </form>
   );
 }
+  /**
+ * Stripe Card Payment Component
+ */
+  function StripePayment({ totalPrice }: { totalPrice: number }) {
+    const stripe = useStripe();
+    const elements = useElements();
+    const navigate = useNavigate();
+    
+    const handleStripePayment = async (e: React.FormEvent) => {
+      e.preventDefault();
+      if (!stripe || !elements) return;
+  
+      const { error, paymentIntent } = await stripe.confirmCardPayment(
+        "YOUR_STRIPE_SECRET_KEY",
+        {
+          payment_method: {
+            card: elements.getElement(CardElement)!,
+          },
+        }
+      );
+  
+      if (error) {
+        alert(`Payment failed: ${error.message}`);
+      } else if (paymentIntent && paymentIntent.status === "succeeded") {
+        alert(`Payment successful! Transaction ID: ${paymentIntent.id}`);
+        navigate("/");
+      }
+    };
+    return (
+      <div className="space-y-4">
+        <div className="p-4 border rounded-lg">
+          <CardElement />
+        </div>
+        <button
+          type="submit"
+          onClick={handleStripePayment}
+          className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition"
+          style={{ backgroundColor: "rgb(77 5 5 / var(--tw-bg-opacity))" }}
+          disabled={!stripe}
+        >
+          Payer {totalPrice.toFixed(2)}€ avec Carte
+        </button>
+        </div>
+    );
+  };
