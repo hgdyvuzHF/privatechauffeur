@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import { useNavigate } from "react-router-dom";
+import { sendEmail } from "../../utils/sendEmail";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY!);
 
@@ -39,6 +40,14 @@ const CheckoutForm: React.FC<{ amount: number }> = ({ amount }) => {
     console.log("Stripe Payment Successful:", paymentMethod);
     alert("Paiement réussi !");
     setIsProcessing(false);
+        
+    sendEmail(
+      {
+        "to": "yassine.bousdog@gmail.com",
+        "subject": "my test2",
+        "text": "test for me"
+      }
+    );
     navigate("/");
   };
 

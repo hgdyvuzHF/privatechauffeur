@@ -5,6 +5,7 @@ import StripeCheckout from "./StripeCheckout";
 import { useNavigate } from 'react-router-dom';
 import { CardElement, Elements, useElements, useStripe } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
+import { sendEmail } from '../../utils/sendEmail';
 
 interface PaymentFormProps {
   onSubmit: (data: any) => void;
@@ -40,6 +41,15 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
     alert(`Transaction completed by ${details.payer.name.given_name}`);
     console.log("Transaction Details:", details);
     // Here, update backend with payment status
+    console.log(FormData);
+        
+    sendEmail(
+      {
+        "to": "yassine.bousdog@gmail.com",
+        "subject": "my test2",
+        "text": "test for me"
+      }
+    );
     navigate("/");
   };
 
@@ -262,6 +272,15 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
         alert(`Payment failed: ${error.message}`);
       } else if (paymentIntent && paymentIntent.status === "succeeded") {
         alert(`Payment successful! Transaction ID: ${paymentIntent.id}`);
+        console.log(FormData);
+        
+        sendEmail(
+          {
+            "to": "yassine.bousdog@gmail.com",
+            "subject": "my test2",
+            "text": "test for me"
+         }
+        );
         navigate("/");
       }
     };
