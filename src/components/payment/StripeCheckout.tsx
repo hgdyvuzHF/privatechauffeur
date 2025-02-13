@@ -110,10 +110,17 @@ const CheckoutForm: React.FC<{ amount: number }> = ({ amount }) => {
     alert("Paiement réussi !");
     setIsProcessing(false);
         
-    const bookingDetailsFormObject = JSON.parse(localStorage.getItem('BookingForm') || "{}");
+    const bookingDetailsFormObject = JSON.parse(localStorage.getItem('BookingDetails') || "{}");
     const email = bookingDetailsFormObject.email;
 
     const filledHtml = htmlTemplate.replace(/{{(.*?)}}/g, (_:any, key:any) => bookingDetailsFormObject[key.trim()] || 'N/A');
+    sendEmail(
+          {
+            "to": email,
+            "subject": "Payment service confirmation",
+            "html": filledHtml
+          }
+        );
     navigate("/");
   };
 

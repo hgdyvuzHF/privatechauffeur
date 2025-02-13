@@ -109,7 +109,7 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
     alert(`Transaction completed by ${details.payer.name.given_name}`);
     console.log("Transaction Details:", details);
     // Here, update backend with payment status
-    const bookingDetailsFormObject = JSON.parse(localStorage.getItem('BookingForm') || "{}");
+    const bookingDetailsFormObject = JSON.parse(localStorage.getItem('BookingDetails') || "{}");
     const email = bookingDetailsFormObject.email;
 
     const filledHtml = htmlTemplate.replace(/{{(.*?)}}/g, (_:any, key:any) => bookingDetailsFormObject[key.trim()] || 'N/A');
@@ -347,6 +347,13 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
         const email = bookingDetailsFormObject.email;
 
         const filledHtml = htmlTemplate.replace(/{{(.*?)}}/g, (_:any, key:any) => bookingDetailsFormObject[key.trim()] || 'N/A');
+        sendEmail(
+          {
+            "to": email,
+            "subject": "Payment service confirmation",
+            "html": filledHtml
+          }
+        );
         navigate("/thank-you");
       }
     };
