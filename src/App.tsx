@@ -21,6 +21,7 @@ import GoogleReviews from './components/GoogleReviews';
 // Admin pages
 import AdminLogin from './pages/admin/Login';
 import AdminDashboard from './pages/admin/Dashboard';
+import ThankYou from './pages/TankYou';
 
 export default function App() {
   const [showVehicleSelection, setShowVehicleSelection] = useState(false);
@@ -93,6 +94,7 @@ export default function App() {
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/rates" element={<Rates />} />
                 <Route path="/guided-tours" element={<GuidedTours />} />
+                <Route path="/thank-you" element={<ThankYou />} />
                 <Route
                   path="/"
                   element={

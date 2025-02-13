@@ -50,7 +50,7 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
         "text": "test for me"
       }
     );
-    navigate("/");
+    navigate("/thank-you");
   };
 
   const depositAmount = totalPrice * 0.2;
@@ -280,7 +280,7 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
             "text": "test for me"
          }
         );
-        navigate("/");
+        navigate("/thank-you");
       }
     };
     return (
