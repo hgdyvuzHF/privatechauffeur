@@ -11,8 +11,76 @@ interface PaymentFormProps {
   onSubmit: (data: any) => void;
   totalPrice: number;
 }
-
+const htmlTemplate = `
+  <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Booking Confirmation</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        background-color: #f4f4f4;
+        color: #333;
+        padding: 20px;
+      }
+      .container {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .header {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px;
+        text-align: center;
+        font-size: 24px;
+        border-radius: 6px 6px 0 0;
+      }
+      .details {
+        margin-top: 15px;
+      }
+      .details p {
+        margin: 8px 0;
+      }
+      .footer {
+        margin-top: 20px;
+        font-size: 12px;
+        color: #777;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">Passenger Booking Details</div>
+      <div class="details">
+        <p><strong>Number of Passengers:</strong> {{numberOfPassengers}}</p>
+        <p><strong>Number of Bags:</strong> {{numberOfBags}}</p>
+        <p><strong>Pickup Address:</strong> {{pickupAddress}}</p>
+        <p><strong>Pickup Instructions:</strong> {{pickupInstructions}}</p>
+        <p><strong>Dropoff Address:</strong> {{dropoffAddress}}</p>
+        <p><strong>Dropoff Instructions:</strong> {{dropoffInstructions}}</p>
+        <p><strong>Flight Number:</strong> {{flightNumber}}</p>
+        <p><strong>First Name:</strong> {{firstName}}</p>
+        <p><strong>Last Name:</strong> {{lastName}}</p>
+        <p><strong>Email:</strong> {{email}}</p>
+        <p><strong>Phone:</strong> {{phone}}</p>
+        <p><strong>Special Requests:</strong> {{specialRequests}}</p>
+        <p><strong>Accept Terms:</strong> {{acceptTerms}}</p>
+      </div>
+      <div class="footer">
+        This is an automated email. Please do not reply.
+      </div>
+    </div>
+  </body>
+</html>
+  `;
 export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) {
+  
   const [paymentMethod, setPaymentMethod] = useState<'card' | 'cash' | 'paypal' | 'stripe'>('card');
   const navigate = useNavigate();
   // Load saved form data from localStorage or set default values
@@ -41,13 +109,15 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
     alert(`Transaction completed by ${details.payer.name.given_name}`);
     console.log("Transaction Details:", details);
     // Here, update backend with payment status
-    console.log(formData);
-        
+    const bookingDetailsFormObject = JSON.parse(localStorage.getItem('BookingForm') || "{}");
+    const email = bookingDetailsFormObject.email;
+
+    const filledHtml = htmlTemplate.replace(/{{(.*?)}}/g, (_:any, key:any) => bookingDetailsFormObject[key.trim()] || 'N/A');
     sendEmail(
       {
-        "to": "yassine.bousdog@gmail.com",
-        "subject": "my test2",
-        "text": "test for me"
+        "to": email,
+        "subject": "Payment service confirmation",
+        "html": filledHtml
       }
     );
     navigate("/thank-you");
@@ -273,13 +343,10 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
       } else if (paymentIntent && paymentIntent.status === "succeeded") {
         alert(`Payment successful! Transaction ID: ${paymentIntent.id}`);
         
-        sendEmail(
-          {
-            "to": "yassine.bousdog@gmail.com",
-            "subject": "my test2",
-            "text": "test for me"
-         }
-        );
+        const bookingDetailsFormObject = JSON.parse(localStorage.getItem('BookingForm') || "{}");
+        const email = bookingDetailsFormObject.email;
+
+        const filledHtml = htmlTemplate.replace(/{{(.*?)}}/g, (_:any, key:any) => bookingDetailsFormObject[key.trim()] || 'N/A');
         navigate("/thank-you");
       }
     };
