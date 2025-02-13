@@ -224,91 +224,24 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
           )}
 
           {(paymentMethod === 'card' || paymentMethod === 'cash') && (
-            // <div className="space-y-4 mt-6">
-            //   <div>
-            //     <label className="block text-sm font-medium text-gray-700 mb-1">
-            //       Numéro de carte
-            //     </label>
-            //     <input
-            //       type="text"
-            //       className="w-full rounded-lg border-gray-300"
-            //       placeholder="1234 5678 9012 3456"
-            //       value={formData.cardNumber}
-            //       onChange={(e) => setFormData({...formData, cardNumber: e.target.value})}
-            //     />
-            //   </div>
-              
-            //   <div className="grid grid-cols-2 gap-4">
-            //     <div>
-            //       <label className="block text-sm font-medium text-gray-700 mb-1">
-            //         Date d'expiration
-            //       </label>
-            //       <input
-            //         type="text"
-            //         className="w-full rounded-lg border-gray-300"
-            //         placeholder="MM/YY"
-            //         value={formData.expiryDate}
-            //         onChange={(e) => setFormData({...formData, expiryDate: e.target.value})}
-            //       />
-            //     </div>
-            //     <div>
-            //       <label className="block text-sm font-medium text-gray-700 mb-1">
-            //         CVC
-            //       </label>
-            //       <input
-            //         type="text"
-            //         className="w-full rounded-lg border-gray-300"
-            //         placeholder="123"
-            //         value={formData.cvc}
-            //         onChange={(e) => setFormData({...formData, cvc: e.target.value})}
-            //       />
-            //     </div>
-            //   </div>
-
-            //   <div>
-            //     <label className="block text-sm font-medium text-gray-700 mb-1">
-            //       Nom sur la carte
-            //     </label>
-            //     <input
-            //       type="text"
-            //       className="w-full rounded-lg border-gray-300"
-            //       placeholder="John Doe"
-            //       value={formData.cardholderName}
-            //       onChange={(e) => setFormData({...formData, cardholderName: e.target.value})}
-            //     />
-            //   </div>
-            //   {/* Regular form for Credit Card or Cash */}
-            //   {paymentMethod === "cash" && (
-            //     <form>
-            //       <button
-            //         type="submit"
-            //         className="w-full bg-primary-600 text-white py-3 rounded-lg hover:bg-primary-700 transition"
-            //       >
-            //         {paymentMethod === "cash"
-            //           ? `Payer l'acompte de ${totalPrice.toFixed(2)}€`
-            //           : "Procéder au paiement"}
-            //       </button>
-            //     </form>
-            //   )}
-            // </div>
             <div className="mt-4">
               <h4 className="text-lg font-semibold mb-2">Informations de paiement</h4>
               <Elements stripe={stripePromise}>
-                <StripePayment totalPrice={totalPrice} />
+                <StripePayment totalPrice={1} />
               </Elements>
             </div>
           )}
           {paymentMethod === 'paypal' && (
             <div className="mt-6 text-center space-y-4">
               <div className="bg-blue-50 p-4 rounded-lg border border-blue-100">
-                <PayPalButton amount={totalPrice} onSuccess={handleSuccess} />
+                <PayPalButton amount={1} onSuccess={handleSuccess} />
               </div>
             </div>
           )}
           {paymentMethod === 'stripe' && (
             <div className="mt-6 text-center space-y-4">
               <div className="bg-blue-50 p-4 rounded-lg border border-blue-100">
-                <StripeCheckout amount={totalPrice} />
+                <StripeCheckout amount={1} />
               </div>
             </div>
           )}
