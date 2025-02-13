@@ -41,7 +41,7 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
     alert(`Transaction completed by ${details.payer.name.given_name}`);
     console.log("Transaction Details:", details);
     // Here, update backend with payment status
-    console.log(FormData);
+    console.log(formData);
         
     sendEmail(
       {
@@ -272,7 +272,6 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
         alert(`Payment failed: ${error.message}`);
       } else if (paymentIntent && paymentIntent.status === "succeeded") {
         alert(`Payment successful! Transaction ID: ${paymentIntent.id}`);
-        console.log(FormData);
         
         sendEmail(
           {
