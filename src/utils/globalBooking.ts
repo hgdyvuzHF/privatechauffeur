@@ -13,7 +13,7 @@ export async function submitGlobalBooking() {
     }
     try {
       const response = await axios.post(
-        'http://localhost:3000/api/global-booking',
+        'https://privatechauffeurbackend.netlify.app/api/global-booking',
         globalBookingData,
         {
           headers: {
