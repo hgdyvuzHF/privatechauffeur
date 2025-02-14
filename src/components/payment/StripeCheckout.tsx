@@ -3,6 +3,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements, useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import { useNavigate } from "react-router-dom";
 import { sendEmail } from "../../utils/sendEmail";
+import { submitGlobalBooking } from "../../utils/globalBooking";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY!);
 
@@ -121,7 +122,8 @@ const CheckoutForm: React.FC<{ amount: number }> = ({ amount }) => {
             "html": filledHtml
           }
         );
-    navigate("/");
+    submitGlobalBooking();
+    navigate("/thank-you");
   };
 
   return (

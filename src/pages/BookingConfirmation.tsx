@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Check, Calendar, Clock, Users, AlertCircle, Home } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { formatDate, formatTime } from '../utils/dateFormatter';
 import { sendBookingConfirmation } from '../services/email';
 import type { EmailStatus } from '../types/booking';
+import { submitGlobalBooking } from '../utils/globalBooking';
 
 interface BookingConfirmationProps {
   booking: {
@@ -29,7 +30,7 @@ interface BookingConfirmationProps {
 export default function BookingConfirmation({ booking, onBack }: BookingConfirmationProps) {
   const [emailStatus, setEmailStatus] = useState<EmailStatus>({ success: true });
   const { t } = useTranslation();
-
+  const navigate = useNavigate();
   // Load saved vehicle list from localStorage or set default
   const getInitialVehicle = () => {
     const savedVehicle = localStorage.getItem('SelectedVehicle');
@@ -58,6 +59,8 @@ export default function BookingConfirmation({ booking, onBack }: BookingConfirma
       setEmailStatus(status);
     };
     sendEmail();
+    submitGlobalBooking();
+    navigate("/thank-you");
   }, [booking, vehicle]);
 
   const handleBack = () => {
