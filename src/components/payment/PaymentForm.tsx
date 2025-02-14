@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { CardElement, Elements, useElements, useStripe } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { sendEmail } from '../../utils/sendEmail';
+import { submitGlobalBooking } from '../../utils/globalBooking';
 
 interface PaymentFormProps {
   onSubmit: (data: any) => void;
@@ -120,6 +121,7 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
         "html": filledHtml
       }
     );
+    submitGlobalBooking();
     navigate("/thank-you");
   };
 
@@ -287,6 +289,7 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
             "html": filledHtml
           }
         );
+        submitGlobalBooking();
         navigate("/thank-you");
       }
     };
