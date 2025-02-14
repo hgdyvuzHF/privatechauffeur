@@ -276,7 +276,6 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
       if (error) {
         alert(`Payment failed: ${error.message}`);
       } else if (paymentIntent && paymentIntent.status === "succeeded") {
-        alert(`Payment successful! Transaction ID: ${paymentIntent.id}`);
         
         const bookingDetailsFormObject = JSON.parse(localStorage.getItem('BookingDetails') || "{}");
         const email = bookingDetailsFormObject.email;

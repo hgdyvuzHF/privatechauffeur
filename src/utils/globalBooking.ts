@@ -16,6 +16,7 @@ export async function submitGlobalBooking() {
         'https://privatechauffeurbackend.netlify.app/api/global-booking',
         globalBookingData,
         {
+          maxBodyLength: Infinity,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -23,8 +24,7 @@ export async function submitGlobalBooking() {
       );
   
       console.log('Booking Created Successfully:', response.data);
-      alert('Booking Created Successfully!');
-    } catch (error) {
+    } catch (error:any) {
       console.error('Error creating booking:', error.response ? error.response.data : error.message);
       alert('Failed to create booking!');
     }
