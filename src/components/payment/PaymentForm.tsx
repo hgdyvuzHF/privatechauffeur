@@ -107,8 +107,6 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
   }, [formData]);
 
   const handleSuccess = (details: any) => {
-    alert(`Transaction completed by ${details.payer.name.given_name}`);
-    console.log("Transaction Details:", details);
     // Here, update backend with payment status
     const bookingDetailsFormObject = JSON.parse(localStorage.getItem('BookingDetails') || "{}");
     const email = bookingDetailsFormObject.email;

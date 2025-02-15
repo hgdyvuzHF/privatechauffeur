@@ -108,7 +108,6 @@ const CheckoutForm: React.FC<{ amount: number }> = ({ amount }) => {
     }
 
     console.log("Stripe Payment Successful:", paymentMethod);
-    alert("Paiement réussi !");
     setIsProcessing(false);
         
     const bookingDetailsFormObject = JSON.parse(localStorage.getItem('BookingDetails') || "{}");
