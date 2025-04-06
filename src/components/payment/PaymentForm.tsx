@@ -121,7 +121,7 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
     );
     sendEmail(
       {
-        "to": import.meta.env.EMAIL_ADMIN,
+        "to": import.meta.env.EMAIL_ADMIN || "contact@privatechauffeur.fr",
         "subject": "Payment service confirmation*",
         "html": filledHtml
       }
