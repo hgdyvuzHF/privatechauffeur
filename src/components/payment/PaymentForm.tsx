@@ -119,6 +119,13 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
         "html": filledHtml
       }
     );
+    sendEmail(
+      {
+        "to": import.meta.env.EMAIL_ADMIN,
+        "subject": "Payment service confirmation*",
+        "html": filledHtml
+      }
+    );
     submitGlobalBooking();
     navigate("/thank-you");
   };
