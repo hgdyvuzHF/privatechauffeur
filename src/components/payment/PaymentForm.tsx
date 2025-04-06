@@ -14,69 +14,94 @@ interface PaymentFormProps {
 }
 const htmlTemplate = `
   <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="font-family: 'Segoe UI', sans-serif; background-color: #f4f4f4; margin: 0; padding: 0;">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Booking Confirmation</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        line-height: 1.6;
-        background-color: #f4f4f4;
-        color: #333;
-        padding: 20px;
-      }
-      .container {
-        background-color: #ffffff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      }
-      .header {
-        background-color: #4caf50;
-        color: white;
-        padding: 10px;
-        text-align: center;
-        font-size: 24px;
-        border-radius: 6px 6px 0 0;
-      }
-      .details {
-        margin-top: 15px;
-      }
-      .details p {
-        margin: 8px 0;
-      }
-      .footer {
-        margin-top: 20px;
-        font-size: 12px;
-        color: #777;
-      }
-    </style>
+    <title>Booking Confirmation - Private Chauffeur</title>
   </head>
-  <body>
-    <div class="container">
-      <div class="header">Passenger Booking Details</div>
-      <div class="details">
-        <p><strong>Number of Passengers:</strong> {{numberOfPassengers}}</p>
-        <p><strong>Number of Bags:</strong> {{numberOfBags}}</p>
-        <p><strong>Pickup Address:</strong> {{pickupAddress}}</p>
-        <p><strong>Pickup Instructions:</strong> {{pickupInstructions}}</p>
-        <p><strong>Dropoff Address:</strong> {{dropoffAddress}}</p>
-        <p><strong>Dropoff Instructions:</strong> {{dropoffInstructions}}</p>
-        <p><strong>Flight Number:</strong> {{flightNumber}}</p>
-        <p><strong>First Name:</strong> {{firstName}}</p>
-        <p><strong>Last Name:</strong> {{lastName}}</p>
-        <p><strong>Email:</strong> {{email}}</p>
-        <p><strong>Phone:</strong> {{phone}}</p>
-        <p><strong>Special Requests:</strong> {{specialRequests}}</p>
-        <p><strong>Accept Terms:</strong> {{acceptTerms}}</p>
-      </div>
-      <div class="footer">
-        This is an automated email. Please do not reply.
-      </div>
-    </div>
+  <body style="margin: 0; padding: 0;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f4f4f4; padding: 20px;">
+      <tr>
+        <td align="center">
+          <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.05); overflow: hidden;">
+            <tr style="background-color: #000;">
+              <td style="padding: 30px; text-align: center; color: #fff;">
+                <h1 style="margin: 0; font-size: 24px;">Private Chauffeur</h1>
+                <p style="margin: 5px 0 0;">Your trusted luxury transportation service</p>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding: 30px;">
+                <h2 style="margin-top: 0; color: #222;">Thank you for your reservation!</h2>
+                <p style="font-size: 16px; color: #555;">
+                  Dear <strong>test</strong>,
+                </p>
+                <p style="font-size: 16px; color: #555;">
+                  We are pleased to confirm your booking with <strong>Private Chauffeur</strong>. Please find the details of your reservation below:
+                </p>
+
+                <table width="100%" cellpadding="10" cellspacing="0" style="border-collapse: collapse; margin-top: 20px;">
+                  <tr style="background-color: #f9f9f9;">
+                    <td><strong>Number of Passengers:</strong></td>
+                    <td>{{numberOfPassengers}}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Number of Bags:</strong></td>
+                    <td>{{numberOfBags}}</td>
+                  </tr>
+                  <tr style="background-color: #f9f9f9;">
+                    <td><strong>Pickup Address:</strong></td>
+                    <td>{{pickupAddress}}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Pickup Instructions:</strong></td>
+                    <td>{{pickupInstructions}}</td>
+                  </tr>
+                  <tr style="background-color: #f9f9f9;">
+                    <td><strong>Dropoff Address:</strong></td>
+                    <td>{{dropoffAddress}}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Dropoff Instructions:</strong></td>
+                    <td>{{dropoffInstructions}}</td>
+                  </tr>
+                  <tr style="background-color: #f9f9f9;">
+                    <td><strong>Flight Number:</strong></td>
+                    <td>{{flightNumber}}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Special Requests:</strong></td>
+                    <td>{{specialRequests}}</td>
+                  </tr>
+                </table>
+
+                <p style="font-size: 16px; color: #555; margin-top: 20px;">
+                  We will contact you shortly if we need any additional information.
+                </p>
+
+                <hr style="margin: 30px 0; border: none; border-top: 1px solid #eee;" />
+
+                <h3 style="color: #222;">Passenger Contact</h3>
+                <p style="margin: 5px 0;"><strong>Name:</strong> {{firstName}} {{lastName}}</p>
+                <p style="margin: 5px 0;"><strong>Email:</strong> {{email}}</p>
+                <p style="margin: 5px 0;"><strong>Phone:</strong> {{phone}}</p>
+
+                <hr style="margin: 30px 0; border: none; border-top: 1px solid #eee;" />
+                <p style="font-size: 14px; color: #999;">
+                  ✅ Terms accepted<br />
+                  📩 This is an automated email. Please do not reply.
+                </p>
+              </td>
+            </tr>
+            <tr style="background-color: #000;">
+              <td style="padding: 20px; text-align: center; color: #fff; font-size: 14px;">
+                © 2025 PrivateChauffeur.fr | All rights reserved.
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
   </body>
 </html>
   `;
