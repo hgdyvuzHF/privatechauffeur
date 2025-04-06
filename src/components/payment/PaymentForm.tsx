@@ -91,6 +91,12 @@ const htmlTemplate = `
                 <p style="margin: 5px 0;"><strong>Phone:</strong> {{phone}}</p>
 
                 <hr style="margin: 30px 0; border: none; border-top: 1px solid #eee;" />
+                <h3 style="color: #222;">Service de bagages</h3>
+                <p style="margin: 5px 0;"><strong>Standard Luggage:</strong> [[standardLuggage]]</p>
+                <p style="margin: 5px 0;"><strong>Special Luggage:</strong> [[specialLuggage]]</p>
+                <p style="margin: 5px 0;"><strong>Special Luggage Details:</strong> [[specialLuggageDetails]]</p>
+                <p style="margin: 5px 0;"><strong>Payment Amount:</strong> [[paymentAmountWithService]]€</p>
+                <hr style="margin: 30px 0; border: none; border-top: 1px solid #eee;" />
                 <p style="font-size: 14px; color: #999;">
                   ✅ Terms accepted<br />
                   📩 This is an automated email. Please do not reply.
@@ -138,13 +144,15 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
   const handleSuccess = (details: any) => {
     // Here, update backend with payment status
     const bookingDetailsFormObject = JSON.parse(localStorage.getItem('BookingDetails') || "{}");
+    const luggageServiceEnabledFormObject = JSON.parse(localStorage.getItem('luggageServiceEnabled') || "{}");
     const email = bookingDetailsFormObject.email;
 
     bookingDetailsFormObject.paymentMethod = paymentMethod;
     localStorage.setItem('BookingDetails', JSON.stringify(bookingDetailsFormObject));
     console.log("bookingDetailsFormObject",bookingDetailsFormObject);
     
-    const filledHtml = htmlTemplate.replace(/{{(.*?)}}/g, (_:any, key:any) => bookingDetailsFormObject[key.trim()] || 'N/A');
+    var filledHtml = htmlTemplate.replace(/{{(.*?)}}/g, (_:any, key:any) => bookingDetailsFormObject[key.trim()] || 'N/A');
+    filledHtml = htmlTemplate.replace(/[[(.*?)]]/g, (_:any, key:any) => luggageServiceEnabledFormObject[key.trim()] || 'N/A');
     sendEmail(
       {
         "to": email,
@@ -320,7 +328,8 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
 
         bookingDetailsFormObject.paymentMethod = "Stripe";
         localStorage.setItem('BookingDetails', JSON.stringify(bookingDetailsFormObject));
-        const filledHtml = htmlTemplate.replace(/{{(.*?)}}/g, (_:any, key:any) => bookingDetailsFormObject[key.trim()] || 'N/A');
+        var filledHtml = htmlTemplate.replace(/{{(.*?)}}/g, (_:any, key:any) => bookingDetailsFormObject[key.trim()] || 'N/A');
+        filledHtml = htmlTemplate.replace(/[[(.*?)]]/g, (_:any, key:any) => luggageServiceEnabledFormObject[key.trim()] || 'N/A');
         sendEmail(
           {
             "to": email,

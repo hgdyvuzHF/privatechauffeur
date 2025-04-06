@@ -12,7 +12,7 @@ export interface LuggageServiceData {
   standardLuggage: number;
   specialLuggage: number;
   specialLuggageDetails?: string;
-  totalPrice: number;
+  paymentAmountWithService: number;
 }
 
 export default function LuggageService({ onUpdate }: LuggageServiceProps) {
@@ -21,7 +21,7 @@ export default function LuggageService({ onUpdate }: LuggageServiceProps) {
   const [standardLuggage, setStandardLuggage] = useState(0);
   const [specialLuggage, setSpecialLuggage] = useState(0);
   const [specialLuggageDetails, setSpecialLuggageDetails] = useState('');
-  const [totalPrice, setTotalPrice] = useState(0);
+  const [paymentAmountWithService, setTotalPrice] = useState(0);
   const [isAdded, setIsAdded] = useState(false);
 
   useEffect(() => {
@@ -42,7 +42,7 @@ export default function LuggageService({ onUpdate }: LuggageServiceProps) {
       standardLuggage,
       specialLuggage,
       specialLuggageDetails,
-      totalPrice
+      paymentAmountWithService
     }));
   };
 
@@ -53,14 +53,14 @@ export default function LuggageService({ onUpdate }: LuggageServiceProps) {
       standardLuggage,
       specialLuggage,
       specialLuggageDetails,
-      totalPrice
+      paymentAmountWithService
     });
     localStorage.setItem('luggageServiceEnabled', JSON.stringify({
       enabled: true,
       standardLuggage,
       specialLuggage,
       specialLuggageDetails,
-      totalPrice
+      paymentAmountWithService
     }));
   };
 
@@ -93,10 +93,10 @@ export default function LuggageService({ onUpdate }: LuggageServiceProps) {
             <h3 className="text-lg font-semibold text-gray-900">
               Service de bagages
             </h3>
-            {isEnabled && totalPrice > 0 && (
+            {isEnabled && paymentAmountWithService > 0 && (
               <div className="flex items-center gap-2 text-primary-600 font-semibold">
                 <Euro className="h-5 w-5" />
-                <span>{totalPrice.toFixed(2)}</span>
+                <span>{paymentAmountWithService.toFixed(2)}</span>
               </div>
             )}
           </div>
@@ -214,7 +214,7 @@ export default function LuggageService({ onUpdate }: LuggageServiceProps) {
                 <div className="bg-primary-50 px-4 py-3 rounded-lg">
                   <div className="flex items-center gap-2 text-primary-600">
                     <span className="font-medium">Total service bagages:</span>
-                    <span className="text-lg font-semibold">{totalPrice.toFixed(2)}€</span>
+                    <span className="text-lg font-semibold">{paymentAmountWithService.toFixed(2)}€</span>
                   </div>
                 </div>
 
