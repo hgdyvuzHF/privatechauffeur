@@ -143,9 +143,9 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
     const bookingDetailsFormObject = JSON.parse(localStorage.getItem('BookingDetails') || "{}");
     const email = bookingDetailsFormObject.email;
 
-    const filledHtml = htmlTemplate.replace(/{{(.*?)}}/g, (_:any, key:any) => bookingDetailsFormObject[key.trim()] || 'N/A');
     formData.paymentMethod = paymentMethod;
     localStorage.setItem('BookingDetails', JSON.stringify(paymentMethod));
+    const filledHtml = htmlTemplate.replace(/{{(.*?)}}/g, (_:any, key:any) => bookingDetailsFormObject[key.trim()] || 'N/A');
     sendEmail(
       {
         "to": email,
@@ -319,7 +319,7 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
         const bookingDetailsFormObject = JSON.parse(localStorage.getItem('BookingDetails') || "{}");
         const email = bookingDetailsFormObject.email;
 
-        bookingDetailsFormObject.paymentMethod = bookingDetailsFormObject;
+        bookingDetailsFormObject.paymentMethod = "Stripe";
         localStorage.setItem('BookingDetails', JSON.stringify(bookingDetailsFormObject));
         const filledHtml = htmlTemplate.replace(/{{(.*?)}}/g, (_:any, key:any) => bookingDetailsFormObject[key.trim()] || 'N/A');
         sendEmail(
