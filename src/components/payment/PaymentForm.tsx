@@ -133,9 +133,6 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
   // Save form data to localStorage on every change
   useEffect(() => {
     localStorage.setItem('PaymentForm', JSON.stringify(formData));
-
-    formData.paymentMethod = paymentMethod;
-    localStorage.setItem('BookingDetails', JSON.stringify(formData));
   }, [formData]);
 
   const handleSuccess = (details: any) => {
