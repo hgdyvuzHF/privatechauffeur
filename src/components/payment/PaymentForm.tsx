@@ -34,7 +34,7 @@ const htmlTemplate = `
               <td style="padding: 30px;">
                 <h2 style="margin-top: 0; color: #222;">Thank you for your reservation!</h2>
                 <p style="font-size: 16px; color: #555;">
-                  Dear <strong>test</strong>,
+                  Dear <strong>{{firstName}} {{lastName}}</strong>,
                 </p>
                 <p style="font-size: 16px; color: #555;">
                   We are pleased to confirm your booking with <strong>Private Chauffeur</strong>. Please find the details of your reservation below:
@@ -72,6 +72,10 @@ const htmlTemplate = `
                   <tr>
                     <td><strong>Special Requests:</strong></td>
                     <td>{{specialRequests}}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Payment Method:</strong></td>
+                    <td>{{paymentMethod}}</td>
                   </tr>
                 </table>
 
@@ -129,6 +133,9 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
   // Save form data to localStorage on every change
   useEffect(() => {
     localStorage.setItem('PaymentForm', JSON.stringify(formData));
+
+    formData.paymentMethod = paymentMethod;
+    localStorage.setItem('BookingDetails', JSON.stringify(paymentMethod));
   }, [formData]);
 
   const handleSuccess = (details: any) => {
@@ -137,6 +144,8 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
     const email = bookingDetailsFormObject.email;
 
     const filledHtml = htmlTemplate.replace(/{{(.*?)}}/g, (_:any, key:any) => bookingDetailsFormObject[key.trim()] || 'N/A');
+    formData.paymentMethod = paymentMethod;
+    localStorage.setItem('BookingDetails', JSON.stringify(paymentMethod));
     sendEmail(
       {
         "to": email,
@@ -310,11 +319,20 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
         const bookingDetailsFormObject = JSON.parse(localStorage.getItem('BookingDetails') || "{}");
         const email = bookingDetailsFormObject.email;
 
+        bookingDetailsFormObject.paymentMethod = bookingDetailsFormObject;
+        localStorage.setItem('BookingDetails', JSON.stringify(bookingDetailsFormObject));
         const filledHtml = htmlTemplate.replace(/{{(.*?)}}/g, (_:any, key:any) => bookingDetailsFormObject[key.trim()] || 'N/A');
         sendEmail(
           {
             "to": email,
             "subject": "Payment service confirmation",
+            "html": filledHtml
+          }
+        );
+        sendEmail(
+          {
+            "to": import.meta.env.EMAIL_ADMIN || "contact@privatechauffeur.fr",
+            "subject": "Payment service confirmation*",
             "html": filledHtml
           }
         );
