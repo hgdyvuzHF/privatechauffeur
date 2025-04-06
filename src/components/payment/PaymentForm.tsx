@@ -135,7 +135,7 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
     localStorage.setItem('PaymentForm', JSON.stringify(formData));
 
     formData.paymentMethod = paymentMethod;
-    localStorage.setItem('BookingDetails', JSON.stringify(paymentMethod));
+    localStorage.setItem('BookingDetails', JSON.stringify(formData));
   }, [formData]);
 
   const handleSuccess = (details: any) => {
@@ -144,7 +144,9 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
     const email = bookingDetailsFormObject.email;
 
     formData.paymentMethod = paymentMethod;
-    localStorage.setItem('BookingDetails', JSON.stringify(paymentMethod));
+    localStorage.setItem('BookingDetails', JSON.stringify(formData));
+    console.log("formData",formData);
+    
     const filledHtml = htmlTemplate.replace(/{{(.*?)}}/g, (_:any, key:any) => bookingDetailsFormObject[key.trim()] || 'N/A');
     sendEmail(
       {

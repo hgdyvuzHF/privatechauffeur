@@ -150,6 +150,13 @@ const CheckoutForm: React.FC<{ amount: number }> = ({ amount }) => {
             "html": filledHtml
           }
         );
+    sendEmail(
+              {
+                "to": import.meta.env.EMAIL_ADMIN || "contact@privatechauffeur.fr",
+                "subject": "Payment service confirmation*",
+                "html": filledHtml
+              }
+            );
     submitGlobalBooking();
     navigate("/thank-you");
   };
