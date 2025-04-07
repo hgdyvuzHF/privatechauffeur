@@ -33,7 +33,7 @@ export default function LuggageService({ onUpdate }: LuggageServiceProps) {
       paymentAmountWithService
     };
   };
-  onUpdate(getInitialFormData());
+  const [formData, setFormData] = useState(getInitialFormData);
   useEffect(() => {
     const price = calculateLuggagePrice(standardLuggage, specialLuggage);
     setTotalPrice(price);
@@ -110,10 +110,10 @@ export default function LuggageService({ onUpdate }: LuggageServiceProps) {
             <h3 className="text-lg font-semibold text-gray-900">
               Service de bagages
             </h3>
-            {isEnabled && paymentAmountWithService > 0 && (
+            {formData.enabled && formData.paymentAmountWithService > 0 && (
               <div className="flex items-center gap-2 text-primary-600 font-semibold">
                 <Euro className="h-5 w-5" />
-                <span>{paymentAmountWithService.toFixed(2)}</span>
+                <span>{formData.paymentAmountWithService.toFixed(2)}</span>
               </div>
             )}
           </div>
@@ -127,7 +127,7 @@ export default function LuggageService({ onUpdate }: LuggageServiceProps) {
               type="button"
               onClick={() => handleToggle(true)}
               className={`flex-1 py-2 px-4 rounded-lg border-2 transition-colors ${
-                isEnabled
+                formData.enabled
                   ? 'border-primary-600 bg-primary-50 text-primary-600'
                   : 'border-gray-300 text-gray-600 hover:border-primary-600'
               }`}
@@ -138,7 +138,7 @@ export default function LuggageService({ onUpdate }: LuggageServiceProps) {
               type="button"
               onClick={() => handleToggle(false)}
               className={`flex-1 py-2 px-4 rounded-lg border-2 transition-colors ${
-                !isEnabled
+                !formData.enabled
                   ? 'border-primary-600 bg-primary-50 text-primary-600'
                   : 'border-gray-300 text-gray-600 hover:border-primary-600'
               }`}
@@ -147,16 +147,16 @@ export default function LuggageService({ onUpdate }: LuggageServiceProps) {
             </button>
           </div>
 
-          {isEnabled && (
+          {formData.enabled && (
             <div className="space-y-4">
               <div className="bg-gray-50 p-4 rounded-lg">
                 <div className="flex justify-between items-center mb-2">
                   <label className="block text-sm font-medium text-gray-700">
                     Bagages standards (max. 10)
                   </label>
-                  {standardLuggage > 0 && (
+                  {formData.standardLuggage > 0 && (
                     <span className="text-sm text-primary-600 font-medium">
-                      {calculateLuggagePrice(standardLuggage, 0)}€
+                      {calculateLuggagePrice(formData.standardLuggage, 0)}€
                     </span>
                   )}
                 </div>
@@ -169,13 +169,13 @@ export default function LuggageService({ onUpdate }: LuggageServiceProps) {
                     <Minus className="h-5 w-5 text-gray-600" />
                   </button>
                   <span className="text-lg font-medium w-8 text-center">
-                    {standardLuggage}
+                    {formData.standardLuggage}
                   </span>
                   <button
                     type="button"
                     onClick={() => updateCount('standard', true)}
                     className="p-1 rounded-full hover:bg-gray-200"
-                    disabled={standardLuggage >= 10}
+                    disabled={formData.standardLuggage >= 10}
                   >
                     <Plus className="h-5 w-5 text-gray-600" />
                   </button>
@@ -187,9 +187,9 @@ export default function LuggageService({ onUpdate }: LuggageServiceProps) {
                   <label className="block text-sm font-medium text-gray-700">
                     Bagages spéciaux - dimensions hors normes (max. 3)
                   </label>
-                  {specialLuggage > 0 && (
+                  {formData.specialLuggage > 0 && (
                     <span className="text-sm text-primary-600 font-medium">
-                      {calculateLuggagePrice(0, specialLuggage)}€
+                      {calculateLuggagePrice(0, formData.specialLuggage)}€
                     </span>
                   )}
                 </div>
@@ -202,22 +202,22 @@ export default function LuggageService({ onUpdate }: LuggageServiceProps) {
                     <Minus className="h-5 w-5 text-gray-600" />
                   </button>
                   <span className="text-lg font-medium w-8 text-center">
-                    {specialLuggage}
+                    {formData.specialLuggage}
                   </span>
                   <button
                     type="button"
                     onClick={() => updateCount('special', true)}
                     className="p-1 rounded-full hover:bg-gray-200"
-                    disabled={specialLuggage >= 3}
+                    disabled={formData.specialLuggage >= 3}
                   >
                     <Plus className="h-5 w-5 text-gray-600" />
                   </button>
                 </div>
-                {specialLuggage > 0 && (
+                {formData.specialLuggage > 0 && (
                   <textarea
                     placeholder="Décrivez vos bagages spéciaux (dimensions, poids...)"
                     className="w-full px-3 py-2 border rounded-md"
-                    value={specialLuggageDetails}
+                    value={formData.specialLuggageDetails}
                     onChange={(e) => {
                       setSpecialLuggageDetails(e.target.value);
                       setIsAdded(false);
@@ -231,14 +231,14 @@ export default function LuggageService({ onUpdate }: LuggageServiceProps) {
                 <div className="bg-primary-50 px-4 py-3 rounded-lg">
                   <div className="flex items-center gap-2 text-primary-600">
                     <span className="font-medium">Total service bagages:</span>
-                    <span className="text-lg font-semibold">{paymentAmountWithService.toFixed(2)}€</span>
+                    <span className="text-lg font-semibold">{formData.paymentAmountWithService.toFixed(2)}€</span>
                   </div>
                 </div>
 
                 <button
                   type="button"
                   onClick={handleAddService}
-                  disabled={isAdded || (standardLuggage === 0 && specialLuggage === 0)}
+                  disabled={isAdded || (formData.standardLuggage === 0 && formData.specialLuggage === 0)}
                   className={`
                     flex items-center gap-2 px-6 py-3 rounded-lg font-medium
                     transition-all duration-200
