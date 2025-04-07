@@ -85,8 +85,8 @@ export default function LuggageService({ onUpdate }: LuggageServiceProps) {
     if (type === 'standard') {
       const maxStandard = 10;
       const newCount = increment 
-        ? Math.min(standardLuggage + 1, maxStandard)
-        : Math.max(0, standardLuggage - 1);
+        ? Math.min(formData.standardLuggage + 1, maxStandard)
+        : Math.max(0, formData.standardLuggage - 1);
       setStandardLuggage(newCount);
       setFormData((prev:any) => ({
         ...prev,
@@ -96,8 +96,8 @@ export default function LuggageService({ onUpdate }: LuggageServiceProps) {
     } else {
       const maxSpecial = 3;
       const newCount = increment
-        ? Math.min(specialLuggage + 1, maxSpecial)
-        : Math.max(0, specialLuggage - 1);
+        ? Math.min(formData.specialLuggage + 1, maxSpecial)
+        : Math.max(0, formData.specialLuggage - 1);
       setSpecialLuggage(newCount);
       setFormData((prev:any) => ({
         ...prev,
