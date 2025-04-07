@@ -150,7 +150,7 @@ const CheckoutForm: React.FC<{ amount: number }> = ({ amount }) => {
           line1: "adress 1",
           city: "Casablanca",
           postal_code: "20200",
-          country: "Morocco"
+          country: "MA"
         }
       }
     });
