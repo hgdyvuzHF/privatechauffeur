@@ -91,6 +91,12 @@ const CheckoutForm: React.FC<{ amount: number }> = ({ amount }) => {
                 <p style="margin: 5px 0;"><strong>Phone:</strong> {{phone}}</p>
 
                 <hr style="margin: 30px 0; border: none; border-top: 1px solid #eee;" />
+                <h3 style="color: #222;">Service de bagages</h3>
+                <p style="margin: 5px 0;"><strong>Standard Luggage:</strong> [[standardLuggage]]</p>
+                <p style="margin: 5px 0;"><strong>Special Luggage:</strong> [[specialLuggage]]</p>
+                <p style="margin: 5px 0;"><strong>Special Luggage Details:</strong> [[specialLuggageDetails]]</p>
+                <p style="margin: 5px 0;"><strong>Payment Amount:</strong> [[paymentAmountWithService]]€</p>
+                <hr style="margin: 30px 0; border: none; border-top: 1px solid #eee;" />
                 <p style="font-size: 14px; color: #999;">
                   ✅ Terms accepted<br />
                   📩 This is an automated email. Please do not reply.
@@ -140,12 +146,12 @@ const CheckoutForm: React.FC<{ amount: number }> = ({ amount }) => {
         
     const bookingDetailsFormObject = JSON.parse(localStorage.getItem('BookingDetails') || "{}");
     const luggageServiceEnabledFormObject = JSON.parse(localStorage.getItem('luggageServiceEnabled') || "{}");
-    
+
     const email = bookingDetailsFormObject.email;
     bookingDetailsFormObject.paymentMethod = "Stripe";
     localStorage.setItem('BookingDetails', JSON.stringify(bookingDetailsFormObject));
     var filledHtml = htmlTemplate.replace(/{{(.*?)}}/g, (_:any, key:any) => bookingDetailsFormObject[key.trim()] || 'N/A');
-    filledHtml = htmlTemplate.replace(/[[(.*?)]]/g, (_:any, key:any) => luggageServiceEnabledFormObject[key.trim()] || 'N/A');
+    filledHtml = htmlTemplate.replace(/\[\[(.*?)\]\]/g, (_:any, key:any) => luggageServiceEnabledFormObject[key.trim()] || 'N/A');
     sendEmail(
           {
             "to": email,
