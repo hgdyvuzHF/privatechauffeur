@@ -36,10 +36,6 @@ export default function LuggageService({ onUpdate }: LuggageServiceProps) {
   const [formData, setFormData] = useState(getInitialFormData);
   useEffect(() => {
     const price = calculateLuggagePrice(standardLuggage, specialLuggage);
-    setFormData((prev:any) => ({
-      ...prev,
-      enbled: isEnabled,
-    }));
     setTotalPrice(price);
   }, [standardLuggage, specialLuggage]);
 
