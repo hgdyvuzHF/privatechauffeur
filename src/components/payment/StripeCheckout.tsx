@@ -151,7 +151,7 @@ const CheckoutForm: React.FC<{ amount: number }> = ({ amount }) => {
     bookingDetailsFormObject.paymentMethod = "Stripe";
     localStorage.setItem('BookingDetails', JSON.stringify(bookingDetailsFormObject));
     var filledHtml = htmlTemplate.replace(/{{(.*?)}}/g, (_:any, key:any) => bookingDetailsFormObject[key.trim()] || 'N/A');
-    filledHtml = htmlTemplate.replace(/\[\[(.*?)\]\]/g, (_:any, key:any) => luggageServiceEnabledFormObject[key.trim()] || 'N/A');
+    filledHtml = filledHtml.replace(/\[\[(.*?)\]\]/g, (_:any, key:any) => luggageServiceEnabledFormObject[key.trim()] || 'N/A');
     sendEmail(
           {
             "to": email,

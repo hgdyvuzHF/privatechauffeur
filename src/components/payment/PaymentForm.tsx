@@ -152,7 +152,7 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
     console.log("bookingDetailsFormObject",bookingDetailsFormObject);
     
     var filledHtml = htmlTemplate.replace(/{{(.*?)}}/g, (_:any, key:any) => bookingDetailsFormObject[key.trim()] || 'N/A');
-    filledHtml = htmlTemplate.replace(/\[\[(.*?)\]\]/g, (_:any, key:any) => luggageServiceEnabledFormObject[key.trim()] || 'N/A');
+    filledHtml = filledHtml.replace(/\[\[(.*?)\]\]/g, (_:any, key:any) => luggageServiceEnabledFormObject[key.trim()] || 'N/A');
     sendEmail(
       {
         "to": email,
@@ -330,7 +330,7 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
         bookingDetailsFormObject.paymentMethod = "Stripe";
         localStorage.setItem('BookingDetails', JSON.stringify(bookingDetailsFormObject));
         var filledHtml = htmlTemplate.replace(/{{(.*?)}}/g, (_:any, key:any) => bookingDetailsFormObject[key.trim()] || 'N/A');
-        filledHtml = htmlTemplate.replace(/[[(.*?)]]/g, (_:any, key:any) => luggageServiceEnabledFormObject[key.trim()] || 'N/A');
+        filledHtml = filledHtml.replace(/[[(.*?)]]/g, (_:any, key:any) => luggageServiceEnabledFormObject[key.trim()] || 'N/A');
         sendEmail(
           {
             "to": email,
