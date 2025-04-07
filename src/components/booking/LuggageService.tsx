@@ -83,13 +83,15 @@ export default function LuggageService({ onUpdate }: LuggageServiceProps) {
       specialLuggageDetails,
       paymentAmountWithService
     });
-    localStorage.setItem('luggageServiceEnabled', JSON.stringify({
+    setFormData({
+      ...formData,
       enabled: true,
       standardLuggage,
       specialLuggage,
       specialLuggageDetails,
       paymentAmountWithService
-    }));
+    });
+    localStorage.setItem('luggageServiceEnabled', JSON.stringify(formData));
   };
 
   const updateCount = (type: 'standard' | 'special', increment: boolean) => {
@@ -113,7 +115,7 @@ export default function LuggageService({ onUpdate }: LuggageServiceProps) {
       setSpecialLuggage(newCount);
       setFormData({
         ...formData,
-        setSpecialLuggage: newCount,
+        specialLuggage: newCount,
       });
       localStorage.setItem('luggageServiceEnabled', JSON.stringify(formData));
       setIsAdded(false);
