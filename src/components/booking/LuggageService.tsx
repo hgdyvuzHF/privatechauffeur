@@ -23,7 +23,17 @@ export default function LuggageService({ onUpdate }: LuggageServiceProps) {
   const [specialLuggageDetails, setSpecialLuggageDetails] = useState('');
   const [paymentAmountWithService, setTotalPrice] = useState(0);
   const [isAdded, setIsAdded] = useState(false);
-
+  const getInitialFormData = () => {
+    const savedData = localStorage.getItem('luggageServiceEnabled');
+    return savedData ? JSON.parse(savedData) : {
+      enabled: false,
+      standardLuggage: 0,
+      specialLuggage: 0,
+      specialLuggageDetails: '',
+      paymentAmountWithService
+    };
+  };
+  onUpdate(getInitialFormData());
   useEffect(() => {
     const price = calculateLuggagePrice(standardLuggage, specialLuggage);
     setTotalPrice(price);
@@ -36,6 +46,13 @@ export default function LuggageService({ onUpdate }: LuggageServiceProps) {
       setSpecialLuggage(0);
       setSpecialLuggageDetails('');
       setIsAdded(false);
+      onUpdate({
+        enabled: false,
+        standardLuggage: 0,
+        specialLuggage: 0,
+        specialLuggageDetails: '',
+        paymentAmountWithService
+      });
     }
     localStorage.setItem('luggageServiceEnabled', JSON.stringify({
       enabled: true,
