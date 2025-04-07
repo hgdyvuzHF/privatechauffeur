@@ -17,7 +17,6 @@ export interface LuggageServiceData {
 
 export default function LuggageService({ onUpdate }: LuggageServiceProps) {
   const { t } = useTranslation();
-  const [isEnabled, setIsEnabled] = useState(false);
   const [standardLuggage, setStandardLuggage] = useState(0);
   const [specialLuggage, setSpecialLuggage] = useState(0);
   const [specialLuggageDetails, setSpecialLuggageDetails] = useState('');
@@ -45,7 +44,6 @@ export default function LuggageService({ onUpdate }: LuggageServiceProps) {
   }, [standardLuggage, specialLuggage]);
 
   const handleToggle = (enabled: boolean) => {
-    setIsEnabled(enabled);
     setFormData({
       ...formData,
       enabled: enabled,
@@ -55,13 +53,6 @@ export default function LuggageService({ onUpdate }: LuggageServiceProps) {
       setSpecialLuggage(0);
       setSpecialLuggageDetails('');
       setIsAdded(false);
-      onUpdate({
-        enabled: false,
-        standardLuggage: 0,
-        specialLuggage: 0,
-        specialLuggageDetails: '',
-        paymentAmountWithService
-      });
       setFormData({
         ...formData,
         enabled: false,
@@ -76,13 +67,6 @@ export default function LuggageService({ onUpdate }: LuggageServiceProps) {
 
   const handleAddService = () => {
     setIsAdded(true);
-    onUpdate({
-      enabled: true,
-      standardLuggage,
-      specialLuggage,
-      specialLuggageDetails,
-      paymentAmountWithService
-    });
     setFormData({
       ...formData,
       enabled: true,
