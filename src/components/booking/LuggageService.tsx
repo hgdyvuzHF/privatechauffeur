@@ -37,10 +37,18 @@ export default function LuggageService({ onUpdate }: LuggageServiceProps) {
   useEffect(() => {
     const price = calculateLuggagePrice(standardLuggage, specialLuggage);
     setTotalPrice(price);
+    setFormData({
+      ...formData,
+      paymentAmountWithService: price,
+    });
   }, [standardLuggage, specialLuggage]);
 
   const handleToggle = (enabled: boolean) => {
     setIsEnabled(enabled);
+    setFormData({
+      ...formData,
+      enabled: enabled,
+    });
     if (!enabled) {
       setStandardLuggage(0);
       setSpecialLuggage(0);
@@ -88,10 +96,10 @@ export default function LuggageService({ onUpdate }: LuggageServiceProps) {
         ? Math.min(formData.standardLuggage + 1, maxStandard)
         : Math.max(0, formData.standardLuggage - 1);
       setStandardLuggage(newCount);
-      setFormData((prev:any) => ({
-        ...prev,
+      setFormData({
+        ...formData,
         standardLuggage: newCount,
-      }));
+      });
       setIsAdded(false);
     } else {
       const maxSpecial = 3;
@@ -99,10 +107,10 @@ export default function LuggageService({ onUpdate }: LuggageServiceProps) {
         ? Math.min(formData.specialLuggage + 1, maxSpecial)
         : Math.max(0, formData.specialLuggage - 1);
       setSpecialLuggage(newCount);
-      setFormData((prev:any) => ({
-        ...prev,
+      setFormData({
+        ...formData,
         setSpecialLuggage: newCount,
-      }));
+      });
       setIsAdded(false);
     }
   };
