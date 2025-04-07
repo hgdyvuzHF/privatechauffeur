@@ -132,7 +132,10 @@ export default function LuggageService({ onUpdate }: LuggageServiceProps) {
           <div className="flex items-center gap-4 mb-6">
             <button
               type="button"
-              onClick={() => handleToggle(true)}
+              onClick={() => {
+                formData.enabled=true;
+                handleToggle(true);
+              }}
               className={`flex-1 py-2 px-4 rounded-lg border-2 transition-colors ${
                 formData.enabled
                   ? 'border-primary-600 bg-primary-50 text-primary-600'
@@ -143,7 +146,10 @@ export default function LuggageService({ onUpdate }: LuggageServiceProps) {
             </button>
             <button
               type="button"
-              onClick={() => handleToggle(false)}
+              onClick={() => {
+                formData.enabled=false;
+                handleToggle(false);
+              }}
               className={`flex-1 py-2 px-4 rounded-lg border-2 transition-colors ${
                 !formData.enabled
                   ? 'border-primary-600 bg-primary-50 text-primary-600'
