@@ -139,6 +139,8 @@ const CheckoutForm: React.FC<{ amount: number }> = ({ amount }) => {
     setIsProcessing(false);
         
     const bookingDetailsFormObject = JSON.parse(localStorage.getItem('BookingDetails') || "{}");
+    const luggageServiceEnabledFormObject = JSON.parse(localStorage.getItem('luggageServiceEnabled') || "{}");
+    
     const email = bookingDetailsFormObject.email;
     bookingDetailsFormObject.paymentMethod = "Stripe";
     localStorage.setItem('BookingDetails', JSON.stringify(bookingDetailsFormObject));

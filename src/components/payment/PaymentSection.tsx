@@ -24,7 +24,7 @@ export default function PaymentSection({
 }: PaymentSectionProps) {
   const price = getPrice(route, selectedVehicle.category);
   const totalPrice = luggageService?.enabled 
-    ? price + luggageService.totalPrice 
+    ? price + luggageService.paymentAmountWithService 
     : price;
 
   return (

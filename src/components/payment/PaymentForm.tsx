@@ -324,6 +324,7 @@ export default function PaymentForm({ onSubmit, totalPrice }: PaymentFormProps) 
       } else if (paymentIntent && paymentIntent.status === "succeeded") {
         
         const bookingDetailsFormObject = JSON.parse(localStorage.getItem('BookingDetails') || "{}");
+        const luggageServiceEnabledFormObject = JSON.parse(localStorage.getItem('luggageServiceEnabled') || "{}");
         const email = bookingDetailsFormObject.email;
 
         bookingDetailsFormObject.paymentMethod = "Stripe";

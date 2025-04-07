@@ -11,7 +11,7 @@ interface PaymentSummaryProps {
 
 export default function PaymentSummary({ price, vehicle, route, luggageService }: PaymentSummaryProps) {
   const totalPrice = luggageService?.enabled 
-    ? price + luggageService.totalPrice 
+    ? price + luggageService.paymentAmountWithService 
     : price;
 
   return (
@@ -56,7 +56,7 @@ export default function PaymentSummary({ price, vehicle, route, luggageService }
           {luggageService?.enabled && (
             <div className="flex justify-between mt-2">
               <span>Service bagages</span>
-              <span className="font-medium">{luggageService.totalPrice.toFixed(2)}€</span>
+              <span className="font-medium">{luggageService.paymentAmountWithService.toFixed(2)}€</span>
             </div>
           )}
           <div className="flex justify-between text-sm text-gray-600 mt-2">
