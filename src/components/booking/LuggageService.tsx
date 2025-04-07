@@ -41,6 +41,7 @@ export default function LuggageService({ onUpdate }: LuggageServiceProps) {
       ...formData,
       paymentAmountWithService: price,
     });
+    localStorage.setItem('luggageServiceEnabled', JSON.stringify(formData));
   }, [standardLuggage, specialLuggage]);
 
   const handleToggle = (enabled: boolean) => {
@@ -61,14 +62,16 @@ export default function LuggageService({ onUpdate }: LuggageServiceProps) {
         specialLuggageDetails: '',
         paymentAmountWithService
       });
+      setFormData({
+        ...formData,
+        enabled: false,
+        standardLuggage: 0,
+        specialLuggage: 0,
+        specialLuggageDetails: '',
+        paymentAmountWithService
+      });
     }
-    localStorage.setItem('luggageServiceEnabled', JSON.stringify({
-      enabled: true,
-      standardLuggage,
-      specialLuggage,
-      specialLuggageDetails,
-      paymentAmountWithService
-    }));
+    localStorage.setItem('luggageServiceEnabled', JSON.stringify(formData));
   };
 
   const handleAddService = () => {
@@ -100,6 +103,7 @@ export default function LuggageService({ onUpdate }: LuggageServiceProps) {
         ...formData,
         standardLuggage: newCount,
       });
+      localStorage.setItem('luggageServiceEnabled', JSON.stringify(formData));
       setIsAdded(false);
     } else {
       const maxSpecial = 3;
@@ -111,6 +115,7 @@ export default function LuggageService({ onUpdate }: LuggageServiceProps) {
         ...formData,
         setSpecialLuggage: newCount,
       });
+      localStorage.setItem('luggageServiceEnabled', JSON.stringify(formData));
       setIsAdded(false);
     }
   };
@@ -236,6 +241,11 @@ export default function LuggageService({ onUpdate }: LuggageServiceProps) {
                     value={formData.specialLuggageDetails}
                     onChange={(e) => {
                       setSpecialLuggageDetails(e.target.value);
+                      setFormData({
+                        ...formData,
+                        specialLuggageDetails: e.target.value,
+                      });
+                      localStorage.setItem('luggageServiceEnabled', JSON.stringify(formData));
                       setIsAdded(false);
                     }}
                     rows={3}
