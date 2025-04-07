@@ -133,6 +133,26 @@ const CheckoutForm: React.FC<{ amount: number }> = ({ amount }) => {
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
       card: cardElement,
+      // billing_details: {
+      //   name: billingDetails.name,
+      //   email: billingDetails.email,
+      //   address: {
+      //     line1: billingDetails.address,
+      //     city: billingDetails.city,
+      //     postal_code: billingDetails.postalCode,
+      //     country: billingDetails.country
+      //   }
+      // }
+      billing_details: {
+        name: "Yassine Bousdog",
+        email: "yassine.bousdog@gmail.com",
+        address: {
+          line1: "adress 1",
+          city: "Casablanca",
+          postal_code: "20200",
+          country: "Morocco"
+        }
+      }
     });
 
     if (error) {
